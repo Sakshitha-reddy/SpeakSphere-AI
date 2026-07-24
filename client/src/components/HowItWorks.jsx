@@ -1,77 +1,73 @@
-import { FaMicrophoneAlt, FaRobot, FaChartLine } from "react-icons/fa";
+import { FaMicrophoneAlt, FaBrain, FaChartLine } from "react-icons/fa";
+
+const steps = [
+  {
+    number: "01",
+    icon: <FaMicrophoneAlt />,
+    title: "Speak",
+    description:
+      "Start speaking naturally with your AI tutor or join a live voice room.",
+  },
+  {
+    number: "02",
+    icon: <FaBrain />,
+    title: "AI Understands",
+    description:
+      "Our AI analyzes pronunciation, grammar, vocabulary and confidence in real time.",
+  },
+  {
+    number: "03",
+    icon: <FaChartLine />,
+    title: "Improve",
+    description:
+      "Receive instant feedback, track your progress and become fluent every day.",
+  },
+];
 
 export default function HowItWorks() {
-  const steps = [
-    {
-      icon: <FaMicrophoneAlt size={35} />,
-      title: "Speak",
-      description:
-        "Start speaking naturally with your AI tutor or join a live voice room.",
-    },
-    {
-      icon: <FaRobot size={35} />,
-      title: "AI Understands",
-      description:
-        "Our AI analyzes pronunciation, grammar, vocabulary and confidence in real time.",
-    },
-    {
-      icon: <FaChartLine size={35} />,
-      title: "Improve",
-      description:
-        "Receive instant feedback, track your progress and become fluent every day.",
-    },
-  ];
-
   return (
-    <section className="bg-slate-50 py-24">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="how-it-works" className="bg-[#f6f0ff] py-10">
+      <div className="mx-auto max-w-7xl px-6">
 
         <div className="text-center">
-          <p className="text-blue-600 uppercase font-semibold tracking-widest">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-violet-600">
             HOW IT WORKS
           </p>
 
-          <h2 className="mt-3 text-4xl font-bold text-gray-900">
+          <h2 className="mt-4 text-5xl font-bold text-slate-900">
             Learn English in 3 Simple Steps
           </h2>
 
-          <p className="mt-5 max-w-2xl mx-auto text-gray-600">
+          <p className="mx-auto mt-6 max-w-3xl text-lg text-slate-500">
             SpeakSphere makes English learning interactive, personalized and
             enjoyable using Artificial Intelligence.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-10 mt-16">
-
-          {steps.map((step, index) => (
-
+        <div className="mt-20 grid gap-10 md:grid-cols-3">
+          {steps.map((step) => (
             <div
-              key={index}
-              className="bg-white rounded-3xl shadow-lg p-10 text-center transition duration-300 hover:-translate-y-3 hover:shadow-2xl"
+              key={step.number}
+              className="rounded-3xl bg-white p-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
             >
-
-              <div className="w-20 h-20 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto">
+              <div className="mx-auto flex h-18 w-18 items-center justify-center rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-500 text-3xl text-white">
                 {step.icon}
               </div>
 
-              <h3 className="mt-6 text-2xl font-bold text-gray-900">
+              <div className="mt-6 text-sm font-bold tracking-widest text-violet-600">
+                {step.number}
+              </div>
+
+              <h3 className="mt-3 text-2xl font-bold text-slate-900">
                 {step.title}
               </h3>
 
-              <p className="mt-4 text-gray-600 leading-7">
+              <p className="mt-4 leading-8 text-slate-500">
                 {step.description}
               </p>
-
-              <div className="mt-8 text-5xl font-bold text-gray-200">
-                0{index + 1}
-              </div>
-
             </div>
-
           ))}
-
         </div>
-
       </div>
     </section>
   );

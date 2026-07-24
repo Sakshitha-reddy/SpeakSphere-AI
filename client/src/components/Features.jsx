@@ -48,40 +48,40 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="bg-white py-24">
+    <section id="features" className="bg-[#f6f0ff] pt-10 pb-20">
       <div className="mx-auto max-w-7xl px-6">
 
         <div className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-blue-600">
-            Features
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-violet-600">
+            FEATURES
           </p>
 
-          <h2 className="mt-3 text-4xl font-bold text-gray-900">
+          <h2 className="mt-4 text-5xl font-bold text-slate-900">
             Everything You Need To Speak English Confidently
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-gray-600">
+          <p className="mx-auto mt-6 max-w-3xl text-lg text-slate-500">
             SpeakSphere combines AI, live conversations and smart analytics
             into one platform that helps you become fluent faster.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-20 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
 
           {features.map((feature, index) => (
             <div
               key={index}
-              className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl"
+              className="rounded-3xl border border-slate-100 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
-              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-100 text-3xl text-blue-600">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-500 text-3xl text-white">
                 {feature.icon}
               </div>
 
-              <h3 className="mb-3 text-2xl font-semibold text-gray-900">
+              <h3 className="mt-6 text-2xl font-bold text-slate-900">
                 {feature.title}
               </h3>
 
-              <p className="leading-7 text-gray-600">
+              <p className="mt-4 leading-8 text-slate-500">
                 {feature.description}
               </p>
             </div>

@@ -16,12 +16,12 @@ export default function Navbar() {
 
         {/* Menu */}
         <nav className="hidden gap-10 text-[15px] font-medium text-slate-600 lg:flex">
-          <a href="#" className="transition hover:text-violet-600">Home</a>
-          <a href="#" className="transition hover:text-violet-600">Features</a>
-          <a href="#" className="transition hover:text-violet-600">Community</a>
-          <a href="#" className="transition hover:text-violet-600">Pricing</a>
-          <a href="#" className="transition hover:text-violet-600">Contact</a>
-        </nav>
+  <a href="#home" className="transition hover:text-violet-600">Home</a>
+  <a href="#features" className="transition hover:text-violet-600">Features</a>
+  <a href="#community" className="transition hover:text-violet-600">Community</a>
+  <a href="#pricing" className="transition hover:text-violet-600">Pricing</a>
+  <a href="#contact" className="transition hover:text-violet-600">Contact</a>
+</nav>
 
         {/* Buttons */}
         <div className="hidden items-center gap-4 lg:flex">

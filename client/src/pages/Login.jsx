@@ -1,37 +1,50 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/firebase";
 
 export default function Login() {
-  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      alert("Login successful!");
+      navigate("/dashboard");
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#f6f0ff] flex items-center justify-center px-6">
-      <div className="w-full max-w-md rounded-3xl bg-white p-10 shadow-2xl">
-        <div className="text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-500 text-2xl font-bold text-white">
-            S
-          </div>
+    <div className="flex min-h-screen items-center justify-center bg-[#f6f0ff] px-6">
+      <div className="w-full max-w-md rounded-3xl bg-white p-8 shadow-xl">
+        <h1 className="text-center text-3xl font-bold text-slate-900">
+          Welcome Back
+        </h1>
 
-          <h1 className="mt-6 text-4xl font-bold text-slate-900">
-            Welcome Back 👋
-          </h1>
+        <p className="mt-2 text-center text-slate-500">
+          Login to continue learning with SpeakSphere.
+        </p>
 
-          <p className="mt-3 text-slate-500">
-            Login to continue your learning journey.
-          </p>
-        </div>
-
-        <form className="mt-10 space-y-6">
+        <form onSubmit={handleLogin} className="mt-8 space-y-5">
           <div>
             <label className="mb-2 block font-medium text-slate-700">
-              Email Address
+              Email
             </label>
 
             <input
               type="email"
               placeholder="Enter your email"
-              className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-violet-500"
+              className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-violet-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
@@ -40,44 +53,25 @@ export default function Login() {
               Password
             </label>
 
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
-                className="w-full rounded-xl border border-slate-200 px-4 py-3 pr-16 outline-none transition focus:border-violet-500"
-              />
-
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-medium text-violet-600"
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2">
-              <input type="checkbox" />
-              Remember me
-            </label>
-
-            <a href="#" className="text-violet-600 hover:underline">
-              Forgot Password?
-            </a>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-violet-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
 
           <button
-            type="button"
-            onClick={() => navigate("/dashboard")}
+            type="submit"
             className="w-full rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 py-3 font-semibold text-white transition hover:scale-[1.02]"
           >
             Login
           </button>
         </form>
 
-        <p className="mt-8 text-center text-slate-600">
+        <p className="mt-6 text-center text-slate-500">
           Don't have an account?{" "}
           <Link
             to="/signup"

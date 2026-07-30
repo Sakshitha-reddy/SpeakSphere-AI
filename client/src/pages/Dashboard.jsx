@@ -3,7 +3,16 @@ import {
   FaBookOpen,
 } from "react-icons/fa";
 import { FaMicrophone, FaArrowRight } from "react-icons/fa";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase";
+import { useNavigate } from "react-router-dom";
 export default function Dashboard() {
+  const navigate = useNavigate();
+
+const handleLogout = async () => {
+  await signOut(auth);
+  navigate("/login");
+};
   const stats = [
     {
       title: "Current Streak",
@@ -37,10 +46,19 @@ export default function Dashboard() {
           </h1>
 
           <div className="flex items-center gap-4">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-violet-100 font-bold text-violet-700">
-              S
-            </div>
-          </div>
+
+  <button
+    onClick={handleLogout}
+    className="rounded-xl border border-red-200 px-4 py-2 text-red-600 transition hover:bg-red-50"
+  >
+    Logout
+  </button>
+
+  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-violet-100 font-bold text-violet-700">
+    S
+  </div>
+
+</div>
         </div>
       </header>
 

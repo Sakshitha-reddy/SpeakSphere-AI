@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase";
+import { db } from "../firebase/firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -10,16 +12,32 @@ export default function Signup() {
   const [password, setPassword] = useState("");
 
   const handleSignup = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      alert("Account created successfully!");
-      navigate("/dashboard");
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    const user = userCredential.user;
+
+    await setDoc(doc(db, "users", user.uid), {
+      email: user.email,
+      streak: 0,
+      fluencyScore: 0,
+      lessonsCompleted: 0,
+      vocabulary: 0,
+      createdAt: new Date(),
+    });
+
+    alert("Account created successfully!");
+    navigate("/dashboard");
+  } catch (error) {
+    alert(error.message);
+  }
+};
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#f6f0ff] px-6">

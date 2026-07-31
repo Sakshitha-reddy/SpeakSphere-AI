@@ -1,38 +1,65 @@
+import { useEffect, useState } from "react";
+import { auth, db } from "../firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+
 import {
   FaUsers,
   FaBookOpen,
+  FaMicrophone,
+  FaArrowRight,
 } from "react-icons/fa";
-import { FaMicrophone, FaArrowRight } from "react-icons/fa";
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase/firebase";
-import { useNavigate } from "react-router-dom";
+
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState({
+    streak: 0,
+    fluencyScore: 0,
+    lessonsCompleted: 0,
+    vocabulary: 0,
+  });
 
-const handleLogout = async () => {
-  await signOut(auth);
-  navigate("/login");
-};
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = auth.currentUser;
+
+      if (!user) return;
+
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setUserData(docSnap.data());
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   const stats = [
     {
       title: "Current Streak",
-      value: "🔥 12",
+      value: `🔥 ${userData.streak}`,
       subtitle: "Days",
     },
     {
       title: "Fluency Score",
-      value: "92%",
+      value: `${userData.fluencyScore}%`,
       subtitle: "Excellent",
     },
     {
       title: "Lessons Completed",
-      value: "48",
+      value: userData.lessonsCompleted,
       subtitle: "Lessons",
     },
     {
-      title: "Today's Goal",
-      value: "30 min",
-      subtitle: "Practice",
+      title: "Vocabulary",
+      value: userData.vocabulary,
+      subtitle: "Words",
     },
   ];
 
@@ -46,24 +73,14 @@ const handleLogout = async () => {
           </h1>
 
           <div className="flex items-center gap-4">
-
-  <button
-    onClick={handleLogout}
-    className="rounded-xl border border-red-200 px-4 py-2 text-red-600 transition hover:bg-red-50"
-  >
-    Logout
-  </button>
-
-  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-violet-100 font-bold text-violet-700">
-    S
-  </div>
-
-</div>
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-violet-100 font-bold text-violet-700">
+              S
+            </div>
+          </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-7xl px-8 py-10">
-
         <h2 className="text-4xl font-bold text-slate-900">
           Welcome Back 👋
         </h2>
@@ -89,161 +106,155 @@ const handleLogout = async () => {
                 {stat.subtitle}
               </p>
             </div>
-            
           ))}
         </div>
+
         {/* Dashboard Content */}
-<div className="mt-12 grid gap-8 lg:grid-cols-2">
+        <div className="mt-12 grid gap-8 lg:grid-cols-2">
+          {/* AI Coach */}
+          <div className="rounded-3xl bg-white p-8 shadow-lg">
+            <div className="flex items-center gap-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-500 text-2xl text-white">
+                <FaMicrophone />
+              </div>
 
-  {/* AI Coach Card */}
-  <div className="rounded-3xl bg-white p-8 shadow-lg">
+              <div>
+                <h3 className="text-2xl font-bold text-slate-900">
+                  AI Speaking Coach
+                </h3>
 
-    <div className="flex items-center gap-4">
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-500 text-2xl text-white">
-        <FaMicrophone />
-      </div>
+                <p className="text-slate-500">
+                  Practice English with instant AI feedback.
+                </p>
+              </div>
+            </div>
 
-      <div>
-        <h3 className="text-2xl font-bold text-slate-900">
-          AI Speaking Coach
-        </h3>
+            <p className="mt-8 leading-8 text-slate-600">
+              Start a conversation with your AI tutor to improve your
+              pronunciation, grammar and fluency.
+            </p>
 
-        <p className="text-slate-500">
-          Practice English with instant AI feedback.
-        </p>
-      </div>
-    </div>
+            <button className="mt-8 flex items-center gap-3 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 px-6 py-4 font-semibold text-white transition hover:scale-105">
+              Start Practice
+              <FaArrowRight />
+            </button>
+          </div>
 
-    <p className="mt-8 leading-8 text-slate-600">
-      Start a conversation with your AI tutor to improve your pronunciation,
-      grammar and fluency.
-    </p>
+          {/* Weekly Progress */}
+          <div className="rounded-3xl bg-white p-8 shadow-lg">
+            <h3 className="text-2xl font-bold text-slate-900">
+              Weekly Progress
+            </h3>
 
-    <button className="mt-8 flex items-center gap-3 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 px-6 py-4 font-semibold text-white transition hover:scale-105">
-      Start Practice
-      <FaArrowRight />
-    </button>
+            <p className="mt-2 text-slate-500">
+              You've completed 75% of this week's goal.
+            </p>
 
-  </div>
+            <div className="mt-8">
+              <div className="mb-3 flex justify-between text-sm font-medium">
+                <span>Progress</span>
+                <span>75%</span>
+              </div>
 
-  {/* Weekly Progress Placeholder */}
-  <div className="rounded-3xl bg-white p-8 shadow-lg">
+              <div className="h-4 rounded-full bg-slate-200">
+                <div className="h-4 w-3/4 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500"></div>
+              </div>
+            </div>
 
-    <h3 className="text-2xl font-bold text-slate-900">
-  Weekly Progress
-</h3>
+            <div className="mt-8 space-y-5">
+              <div className="flex justify-between">
+                <span className="text-slate-600">Lessons This Week</span>
+                <span className="font-bold">
+                  {userData.lessonsCompleted}
+                </span>
+              </div>
 
-<p className="mt-2 text-slate-500">
-  You've completed 75% of this week's goal.
-</p>
+              <div className="flex justify-between">
+                <span className="text-slate-600">Current Streak</span>
+                <span className="font-bold">
+                  {userData.streak} Days
+                </span>
+              </div>
 
-<div className="mt-8">
+              <div className="flex justify-between">
+                <span className="text-slate-600">Vocabulary Learned</span>
+                <span className="font-bold">
+                  {userData.vocabulary} Words
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-  <div className="mb-3 flex justify-between text-sm font-medium">
-    <span>Progress</span>
-    <span>75%</span>
-  </div>
+        {/* Quick Actions */}
+        <div className="mt-12 rounded-3xl bg-white p-8 shadow-lg">
+          <h2 className="text-3xl font-bold text-slate-900">
+            Quick Actions
+          </h2>
 
-  <div className="h-4 rounded-full bg-slate-200">
-    <div className="h-4 w-3/4 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500"></div>
-  </div>
+          <p className="mt-2 text-slate-500">
+            Continue learning with one click.
+          </p>
 
-</div>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            <button
+  onClick={() => navigate("/practice")}
+  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+>
+              <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
+                <FaMicrophone />
+              </div>
 
-<div className="mt-8 space-y-5">
+              <div className="text-left">
+                <h3 className="font-bold text-slate-900">
+                  Start Speaking
+                </h3>
 
-  <div className="flex justify-between">
-    <span className="text-slate-600">Lessons This Week</span>
-    <span className="font-bold">15</span>
-  </div>
+                <p className="text-sm text-slate-500">
+                  Practice with AI
+                </p>
+              </div>
+            </button>
 
-  <div className="flex justify-between">
-    <span className="text-slate-600">Speaking Practice</span>
-    <span className="font-bold">6 hrs</span>
-  </div>
+           <button
+  onClick={() => navigate("/rooms")}
+  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+>
+              <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
+                <FaUsers />
+              </div>
 
-  <div className="flex justify-between">
-    <span className="text-slate-600">Vocabulary Learned</span>
-    <span className="font-bold">128 Words</span>
-  </div>
+              <div className="text-left">
+                <h3 className="font-bold text-slate-900">
+                  Voice Rooms
+                </h3>
 
-</div>
+                <p className="text-sm text-slate-500">
+                  Join live learners
+                </p>
+              </div>
+            </button>
 
-  </div>
+          <button
+  onClick={() => navigate("/vocabulary")}
+  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+>
+              <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
+                <FaBookOpen />
+              </div>
 
-</div>
-{/* Quick Actions */}
+              <div className="text-left">
+                <h3 className="font-bold text-slate-900">
+                  Vocabulary
+                </h3>
 
-<div className="mt-12 rounded-3xl bg-white p-8 shadow-lg">
-
-  <h2 className="text-3xl font-bold text-slate-900">
-    Quick Actions
-  </h2>
-
-  <p className="mt-2 text-slate-500">
-    Continue learning with one click.
-  </p>
-
-  <div className="mt-8 grid gap-6 md:grid-cols-3">
-
-    <button className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl">
-
-      <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
-        <FaMicrophone />
-      </div>
-
-      <div className="text-left">
-        <h3 className="font-bold text-slate-900">
-          Start Speaking
-        </h3>
-
-        <p className="text-sm text-slate-500">
-          Practice with AI
-        </p>
-      </div>
-
-    </button>
-
-    <button className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl">
-
-      <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
-        <FaUsers />
-      </div>
-
-      <div className="text-left">
-        <h3 className="font-bold text-slate-900">
-          Voice Rooms
-        </h3>
-
-        <p className="text-sm text-slate-500">
-          Join live learners
-        </p>
-      </div>
-
-    </button>
-
-    <button className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl">
-
-    <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
-        <FaBookOpen />
-      </div>
-
-      <div className="text-left">
-        <h3 className="font-bold text-slate-900">
-          Vocabulary
-        </h3>
-
-        <p className="text-sm text-slate-500">
-          Learn new words
-        </p>
-      </div>
-
-    </button>
-
-  </div>
-
-</div>
-
+                <p className="text-sm text-slate-500">
+                  Learn new words
+                </p>
+              </div>
+            </button>
+          </div>
+        </div>
       </main>
     </div>
   );

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import {
   FaArrowLeft,
   FaMicrophone,
@@ -8,6 +9,98 @@ import {
 } from "react-icons/fa";
 
 export default function Practice() {
+  // ===============================
+// STATES
+// ===============================
+
+const [isListening, setIsListening] = useState(false);
+
+const [transcript, setTranscript] = useState("");
+const [seconds, setSeconds] = useState(0);
+
+const recognitionRef = useRef(null);
+
+// ===============================
+// SPEECH RECOGNITION
+// ===============================
+
+useEffect(() => {
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    alert("Speech Recognition is not supported in this browser.");
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = "en-US";
+
+  recognition.onresult = (event) => {
+    let text = "";
+
+    for (
+      let i = event.resultIndex;
+      i < event.results.length;
+      i++
+    ) {
+      text += event.results[i][0].transcript;
+    }
+
+    setTranscript(text);
+  };
+
+  recognition.onstart = () => {
+    setIsListening(true);
+  };
+
+  recognition.onend = () => {
+    setIsListening(false);
+  };
+
+  recognition.onerror = (event) => {
+    console.log(event.error);
+  };
+
+  recognitionRef.current = recognition;
+}, []);
+// ===============================
+// TIMER
+// ===============================
+
+useEffect(() => {
+  let interval;
+
+  if (isListening) {
+    interval = setInterval(() => {
+      setSeconds((prev) => prev + 1);
+    }, 1000);
+  }
+
+  return () => clearInterval(interval);
+}, [isListening]);
+// ===============================
+// FUNCTIONS
+// ===============================
+
+const startListening = () => {
+  if (!recognitionRef.current) return;
+
+  setTranscript("");
+  setSeconds(0);
+
+  recognitionRef.current.start();
+};
+
+const stopListening = () => {
+  if (!recognitionRef.current) return;
+
+  recognitionRef.current.stop();
+};
   return (
     <div className="min-h-screen bg-[#f6f0ff]">
 
@@ -104,11 +197,11 @@ export default function Practice() {
                       👤 You
                     </p>
 
-                    <p className="mt-2">
-                      Hi! My name is Sakshitha.
-                      I love learning English and
-                      building AI applications.
-                    </p>
+                   <p className="mt-2">
+  {transcript
+    ? transcript
+    : "Your speech will appear here..."}
+</p>
 
                   </div>
 
@@ -142,21 +235,23 @@ export default function Practice() {
 
               <div className="mt-10 flex gap-5">
 
-                <button className="flex items-center gap-3 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white px-8 py-4 rounded-2xl font-semibold hover:scale-105 transition">
+                <button
+  onClick={startListening}
+  className="flex items-center gap-3 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white px-8 py-4 rounded-2xl font-semibold hover:scale-105 transition"
+>
+  <FaPlay />
 
-                  <FaPlay />
+  {isListening ? "Listening..." : "Start Practice"}
+</button>
 
-                  Start Practice
+              <button
+  onClick={stopListening}
+  className="flex items-center gap-3 border border-red-300 text-red-600 px-8 py-4 rounded-2xl font-semibold hover:bg-red-50 transition"
+>
+  <FaStop />
 
-                </button>
-
-                <button className="flex items-center gap-3 border border-red-300 text-red-600 px-8 py-4 rounded-2xl font-semibold hover:bg-red-50 transition">
-
-                  <FaStop />
-
-                  End Session
-
-                </button>
+  End Session
+</button>
 
               </div>
 
@@ -200,9 +295,15 @@ export default function Practice() {
                     Status
                   </p>
 
-                  <h3 className="mt-2 text-2xl font-bold text-violet-700">
-                    Ready
-                  </h3>
+                 <h3
+  className={`mt-2 text-2xl font-bold ${
+    isListening
+      ? "text-red-600"
+      : "text-violet-700"
+  }`}
+>
+  {isListening ? "🎤 Listening..." : "Ready"}
+</h3>
 
                 </div>
 
@@ -213,7 +314,9 @@ export default function Practice() {
                   </p>
 
                   <h3 className="mt-2 text-2xl font-bold">
-                    00:00
+                    {`${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(
+  seconds % 60
+).padStart(2, "0")}`}
                   </h3>
 
                 </div>

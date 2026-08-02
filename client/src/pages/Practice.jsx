@@ -1,3 +1,4 @@
+import { askGemini } from "../services/gemini";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -16,6 +17,8 @@ export default function Practice() {
 const [isListening, setIsListening] = useState(false);
 
 const [transcript, setTranscript] = useState("");
+const [aiReply, setAiReply] = useState("");
+
 const [seconds, setSeconds] = useState(0);
 
 const recognitionRef = useRef(null);
@@ -96,10 +99,18 @@ const startListening = () => {
   recognitionRef.current.start();
 };
 
-const stopListening = () => {
+const stopListening = async () => {
   if (!recognitionRef.current) return;
 
   recognitionRef.current.stop();
+
+  if (!transcript.trim()) return;
+
+  setAiReply("Thinking...");
+
+  const reply = await askGemini(transcript);
+
+  setAiReply(reply);
 };
   return (
     <div className="min-h-screen bg-[#f6f0ff]">
@@ -218,12 +229,8 @@ const stopListening = () => {
                     </p>
 
                     <p className="mt-2 text-slate-700">
-                      Excellent!
-
-                      Your grammar is good.
-
-                      Try speaking a little slower to improve pronunciation.
-                    </p>
+  {aiReply || "Your AI feedback will appear here..."}
+</p>
 
                   </div>
 
@@ -327,9 +334,13 @@ const stopListening = () => {
                     AI Status
                   </p>
 
-                  <h3 className="mt-2 text-2xl font-bold text-green-600">
-                    Waiting...
-                  </h3>
+                 <h3 className="mt-2 text-2xl font-bold text-green-600">
+  {aiReply === "Thinking..."
+    ? "Thinking..."
+    : aiReply
+    ? "Responded"
+    : "Waiting..."}
+</h3>
 
                 </div>
 

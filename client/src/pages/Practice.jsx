@@ -111,6 +111,16 @@ const stopListening = async () => {
   const reply = await askGemini(transcript);
 
   setAiReply(reply);
+
+  // 🔊 AI speaks the response
+  const speech = new SpeechSynthesisUtterance(reply);
+
+  speech.lang = "en-US";
+  speech.rate = 0.95;
+  speech.pitch = 1;
+
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(speech);
 };
   return (
     <div className="min-h-screen bg-[#f6f0ff]">

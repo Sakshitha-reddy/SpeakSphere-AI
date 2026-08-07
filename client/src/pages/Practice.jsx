@@ -11,67 +11,83 @@ import {
 
 export default function Practice() {
   // ===============================
-// STATES
-// ===============================
+  // STATES
+  // ===============================
 
-const [isListening, setIsListening] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [transcript, setTranscript] = useState("");
+  const [aiReply, setAiReply] = useState("");
+  const [seconds, setSeconds] = useState(0);
 
-const [transcript, setTranscript] = useState("");
-const [aiReply, setAiReply] = useState("");
+  const recognitionRef = useRef(null);
+  const finalTranscriptRef = useRef("");
+  const shouldListenRef = useRef(false);
 
-const [seconds, setSeconds] = useState(0);
+  // ===============================
+  // SPEECH RECOGNITION
+  // ===============================
 
-const recognitionRef = useRef(null);
+  useEffect(() => {
+    const SpeechRecognition =
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition;
 
-// ===============================
-// SPEECH RECOGNITION
-// ===============================
-
-useEffect(() => {
-  const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
-  if (!SpeechRecognition) {
-    alert("Speech Recognition is not supported in this browser.");
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
-
-  recognition.continuous = true;
-  recognition.interimResults = true;
-  recognition.lang = "en-US";
-
-  recognition.onresult = (event) => {
-    let text = "";
-
-    for (
-      let i = event.resultIndex;
-      i < event.results.length;
-      i++
-    ) {
-      text += event.results[i][0].transcript;
+    if (!SpeechRecognition) {
+      alert("Speech Recognition is not supported in this browser.");
+      return;
     }
 
-    setTranscript(text);
-  };
+    const recognition = new SpeechRecognition();
 
-  recognition.onstart = () => {
-    setIsListening(true);
-  };
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = "en-US";
 
-  recognition.onend = () => {
-    setIsListening(false);
-  };
+    recognition.onresult = (event) => {
+      let interimTranscript = "";
 
-  recognition.onerror = (event) => {
-    console.log(event.error);
-  };
+      for (
+        let i = event.resultIndex;
+        i < event.results.length;
+        i++
+      ) {
+        const part =
+          event.results[i][0].transcript;
 
-  recognitionRef.current = recognition;
-}, []);
-// ===============================
+        if (event.results[i].isFinal) {
+          finalTranscriptRef.current += part + " ";
+        } else {
+          interimTranscript += part;
+        }
+      }
+
+      setTranscript(
+        (
+          finalTranscriptRef.current +
+          interimTranscript
+        ).trim()
+      );
+    };
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+
+      if (shouldListenRef.current) {
+        recognition.start();
+      }
+    };
+
+    recognition.onerror = (event) => {
+      console.log(event.error);
+    };
+
+    recognitionRef.current = recognition;
+  }, []);
+  // ===============================
 // TIMER
 // ===============================
 
@@ -86,42 +102,69 @@ useEffect(() => {
 
   return () => clearInterval(interval);
 }, [isListening]);
+
 // ===============================
 // FUNCTIONS
 // ===============================
 
 const startListening = () => {
-  if (!recognitionRef.current) return;
+  if (!recognitionRef.current || isListening) return;
 
+  shouldListenRef.current = true;
+
+  finalTranscriptRef.current = "";
   setTranscript("");
+  setAiReply("");
   setSeconds(0);
 
   recognitionRef.current.start();
 };
 
-const stopListening = async () => {
-  if (!recognitionRef.current) return;
+const speak = (text) => {
+  window.speechSynthesis.cancel();
 
-  recognitionRef.current.stop();
-
-  if (!transcript.trim()) return;
-
-  setAiReply("Thinking...");
-
-  const reply = await askGemini(transcript);
-
-  setAiReply(reply);
-
-  // 🔊 AI speaks the response
-  const speech = new SpeechSynthesisUtterance(reply);
+  const speech = new SpeechSynthesisUtterance(text);
 
   speech.lang = "en-US";
   speech.rate = 0.95;
   speech.pitch = 1;
 
-  window.speechSynthesis.cancel();
   window.speechSynthesis.speak(speech);
 };
+
+const stopListening = async () => {
+  if (!recognitionRef.current) return;
+
+  shouldListenRef.current = false;
+
+  recognitionRef.current.stop();
+
+  // Give Chrome time to finalize the last words
+  await new Promise((resolve) => setTimeout(resolve, 1200));
+
+  const finalText = transcript.trim();
+  if (!finalText) return;
+
+  setTranscript(finalText);
+
+  setAiReply("Thinking...");
+
+  try {
+    const reply = await askGemini(finalText);
+
+    setAiReply(reply);
+
+    speak(reply);
+  } catch (error) {
+    console.error(error);
+
+    setAiReply(
+      "Sorry, I'm having trouble responding right now."
+    );
+  }
+};
+  
+
   return (
     <div className="min-h-screen bg-[#f6f0ff]">
 

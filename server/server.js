@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import chatRoutes from "./routes/chat.js";
 
 dotenv.config();
+console.log("API Key:", process.env.GEMINI_API_KEY);
 
 const app = express();
 

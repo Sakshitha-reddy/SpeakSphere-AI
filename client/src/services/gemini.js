@@ -1,24 +1,18 @@
-import { GoogleGenAI } from "@google/genai";
-
-const ai = new GoogleGenAI({
-  apiKey: import.meta.env.VITE_GEMINI_API_KEY,
-});
-
 export async function askGemini(message) {
   try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3.6-flash",
-      contents: message,
+    const response = await fetch("http://localhost:5000/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message }),
     });
 
-    return response.text;
-  } catch (error) {
-    console.error("FULL GEMINI ERROR:", error);
+    const data = await response.json();
 
-    return (
-      error?.message ||
-      JSON.stringify(error) ||
-      "Unknown Gemini error"
-    );
+    return data.reply;
+  } catch (error) {
+    console.error(error);
+    return "Sorry, I'm having trouble responding right now.";
   }
 }

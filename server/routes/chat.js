@@ -1,17 +1,45 @@
 import express from "express";
+import { GoogleGenAI } from "@google/genai";
 
 const router = express.Router();
+
+
 
 router.post("/", async (req, res) => {
   try {
     const { message } = req.body;
+    const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.6-flash",
+      contents: [
+        {
+          role: "user",
+          parts: [
+            {
+              text: `You are SpeakSphere, a friendly English speaking tutor.
+
+Correct grammar politely.
+Keep responses short (2-4 sentences).
+Encourage the user to continue speaking.
+
+User: ${message}`,
+            },
+          ],
+        },
+      ],
+    });
 
     res.json({
-      reply: `Backend received: ${message}`,
+      reply: response.text,
     });
   } catch (error) {
+    console.error("Gemini Error:", error);
+
     res.status(500).json({
-      error: "Something went wrong",
+      reply: "Sorry, I'm having trouble responding right now.",
     });
   }
 });

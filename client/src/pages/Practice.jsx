@@ -15,16 +15,127 @@ export default function Practice() {
   // ===============================
 
   const [isListening, setIsListening] = useState(false);
-  const [transcript, setTranscript] = useState("");
-  const [aiReply, setAiReply] = useState("");
-  const [seconds, setSeconds] = useState(0);
+const [transcript, setTranscript] = useState("");
+const [lastUserMessage, setLastUserMessage] = useState("");
+const [aiReply, setAiReply] = useState("");
+const [seconds, setSeconds] = useState(0);
+
+   // ===============================
+  // SPEECH RECOGNITION REFS
+  // ===============================
 
   const recognitionRef = useRef(null);
-  const finalTranscriptRef = useRef("");
   const shouldListenRef = useRef(false);
+  const processingRef = useRef(false);
+  const silenceTimerRef = useRef(null);
+  const currentSpeechRef = useRef("");
+  const speakingRef = useRef(false);
 
   // ===============================
-  // SPEECH RECOGNITION
+  // AI VOICE
+  // ===============================
+
+  const speak = (text, onFinished) => {
+    window.speechSynthesis.cancel();
+
+    const speech = new SpeechSynthesisUtterance(text);
+
+    speech.lang = "en-US";
+    speech.rate = 0.95;
+    speech.pitch = 1;
+
+    speech.onend = () => {
+      speakingRef.current = false;
+
+      if (onFinished) {
+        onFinished();
+      }
+    };
+
+    speakingRef.current = true;
+
+    window.speechSynthesis.speak(speech);
+  };
+
+  // ===============================
+  // PROCESS ONE SPEECH TURN
+  // ===============================
+
+  const processSpeech = async () => {
+    if (!shouldListenRef.current) return;
+    if (processingRef.current) return;
+
+    const finalText = currentSpeechRef.current.trim();
+
+    if (!finalText) return;
+
+    processingRef.current = true;
+
+    // Stop current recognition session
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+    }
+
+    // Keep the user's completed sentence visible
+    setTranscript(finalText);
+    setLastUserMessage(finalText);
+    setAiReply("Thinking...");
+
+    // Clear the internal buffer immediately
+    // so the next conversation starts fresh
+    currentSpeechRef.current = "";
+
+    try {
+      const reply = await askGemini(finalText);
+
+      setAiReply(reply);
+
+      // Let AI finish speaking before listening again
+      speak(reply, () => {
+        processingRef.current = false;
+
+        if (shouldListenRef.current) {
+          startRecognition();
+        }
+      });
+
+    } catch (error) {
+      console.error("Gemini Error:", error);
+
+      setAiReply(
+        "Sorry, I'm having trouble responding right now."
+      );
+
+      processingRef.current = false;
+
+      if (shouldListenRef.current) {
+        startRecognition();
+      }
+    }
+  };
+
+  // ===============================
+  // START ONE RECOGNITION SESSION
+  // ===============================
+
+  const startRecognition = () => {
+    if (!recognitionRef.current) return;
+    if (!shouldListenRef.current) return;
+    if (processingRef.current) return;
+    if (speakingRef.current) return;
+
+    // Fresh buffer for the new sentence
+    currentSpeechRef.current = "";
+
+    try {
+      recognitionRef.current.start();
+    } catch (error) {
+      console.log("Recognition already running.");
+    }
+  };
+
+  // ===============================
+  // SPEECH RECOGNITION SETUP
   // ===============================
 
   useEffect(() => {
@@ -33,15 +144,24 @@ export default function Practice() {
       window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      alert("Speech Recognition is not supported in this browser.");
+      alert(
+        "Speech Recognition is not supported in this browser."
+      );
       return;
     }
 
     const recognition = new SpeechRecognition();
 
-    recognition.continuous = true;
+    // IMPORTANT:
+    // Each recognition session is treated as one
+    // user speaking turn.
+    recognition.continuous = false;
     recognition.interimResults = true;
     recognition.lang = "en-US";
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
 
     recognition.onresult = (event) => {
       let interimTranscript = "";
@@ -55,114 +175,141 @@ export default function Practice() {
           event.results[i][0].transcript;
 
         if (event.results[i].isFinal) {
-          finalTranscriptRef.current += part + " ";
+          currentSpeechRef.current += part + " ";
         } else {
           interimTranscript += part;
         }
       }
 
-      setTranscript(
-        (
-          finalTranscriptRef.current +
-          interimTranscript
-        ).trim()
-      );
-    };
+      const currentText = (
+        currentSpeechRef.current +
+        interimTranscript
+      ).trim();
 
-    recognition.onstart = () => {
-      setIsListening(true);
+      setTranscript(currentText);
+
+      // Reset silence timer whenever speech is detected
+      if (silenceTimerRef.current) {
+        clearTimeout(silenceTimerRef.current);
+      }
+
+      // Wait 2 seconds after the user stops speaking
+      silenceTimerRef.current = setTimeout(() => {
+        if (
+          shouldListenRef.current &&
+          !processingRef.current &&
+          currentSpeechRef.current.trim()
+        ) {
+          processSpeech();
+        }
+      }, 2000);
     };
 
     recognition.onend = () => {
       setIsListening(false);
 
-      if (shouldListenRef.current) {
-        recognition.start();
-      }
+      // Do NOT automatically restart here.
+      // processSpeech() controls when the next
+      // conversation turn begins.
     };
 
     recognition.onerror = (event) => {
-      console.log(event.error);
+      console.error(
+        "Speech Recognition Error:",
+        event.error
+      );
+
+      if (event.error === "no-speech") {
+        if (
+          shouldListenRef.current &&
+          !processingRef.current &&
+          !speakingRef.current
+        ) {
+          setTimeout(() => {
+            startRecognition();
+          }, 300);
+        }
+      }
     };
 
     recognitionRef.current = recognition;
+
+       return () => {
+      if (silenceTimerRef.current) {
+        clearTimeout(silenceTimerRef.current);
+      }
+
+      recognition.stop();
+    };
+
+// eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   // ===============================
-// TIMER
-// ===============================
+  // TIMER
+  // ===============================
 
-useEffect(() => {
-  let interval;
+  useEffect(() => {
+    let interval;
 
-  if (isListening) {
-    interval = setInterval(() => {
-      setSeconds((prev) => prev + 1);
-    }, 1000);
-  }
+    if (isListening) {
+      interval = setInterval(() => {
+        setSeconds((prev) => prev + 1);
+      }, 1000);
+    }
 
-  return () => clearInterval(interval);
-}, [isListening]);
+    return () => clearInterval(interval);
+  }, [isListening]);
 
-// ===============================
-// FUNCTIONS
-// ===============================
+  // ===============================
+  // START PRACTICE
+  // ===============================
 
-const startListening = () => {
-  if (!recognitionRef.current || isListening) return;
+  const startListening = () => {
+    if (!recognitionRef.current) return;
+    if (shouldListenRef.current) return;
 
-  shouldListenRef.current = true;
+    // Start a completely new conversation session
+    shouldListenRef.current = true;
+    processingRef.current = false;
+    speakingRef.current = false;
 
-  finalTranscriptRef.current = "";
-  setTranscript("");
-  setAiReply("");
-  setSeconds(0);
+    currentSpeechRef.current = "";
 
-  recognitionRef.current.start();
-};
+    setTranscript("");
+    setLastUserMessage("");
+    setAiReply("");
+    setSeconds(0);
 
-const speak = (text) => {
-  window.speechSynthesis.cancel();
+    window.speechSynthesis.cancel();
 
-  const speech = new SpeechSynthesisUtterance(text);
+    startRecognition();
+  };
 
-  speech.lang = "en-US";
-  speech.rate = 0.95;
-  speech.pitch = 1;
+  // ===============================
+  // END SESSION
+  // ===============================
 
-  window.speechSynthesis.speak(speech);
-};
+  const stopListening = () => {
+    shouldListenRef.current = false;
+    processingRef.current = false;
+    speakingRef.current = false;
 
-const stopListening = async () => {
-  if (!recognitionRef.current) return;
+    if (silenceTimerRef.current) {
+      clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = null;
+    }
 
-  shouldListenRef.current = false;
+    currentSpeechRef.current = "";
 
-  recognitionRef.current.stop();
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+    }
 
-  // Give Chrome time to finalize the last words
-  await new Promise((resolve) => setTimeout(resolve, 1200));
+    window.speechSynthesis.cancel();
 
-  const finalText = transcript.trim();
-  if (!finalText) return;
-
-  setTranscript(finalText);
-
-  setAiReply("Thinking...");
-
-  try {
-    const reply = await askGemini(finalText);
-
-    setAiReply(reply);
-
-    speak(reply);
-  } catch (error) {
-    console.error(error);
-
-    setAiReply(
-      "Sorry, I'm having trouble responding right now."
-    );
-  }
-};
+    setIsListening(false);
+  };
   
 
   return (
@@ -261,8 +408,10 @@ const stopListening = async () => {
                       👤 You
                     </p>
 
-                   <p className="mt-2">
-  {transcript
+                  <p className="mt-2">
+  {lastUserMessage
+    ? lastUserMessage
+    : transcript
     ? transcript
     : "Your speech will appear here..."}
 </p>

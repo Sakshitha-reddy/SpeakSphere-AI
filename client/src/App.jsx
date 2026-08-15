@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Practice from "./pages/Practice";
 import Vocabulary from "./pages/Vocabulary";
 import VoiceRooms from "./pages/VoiceRooms";
+import RandomCall from "./pages/RandomCall";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -55,6 +56,14 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+  path="/random-call"
+  element={
+    <ProtectedRoute>
+      <RandomCall />
+    </ProtectedRoute>
+  }
+/>
     </Routes>
   );
 }

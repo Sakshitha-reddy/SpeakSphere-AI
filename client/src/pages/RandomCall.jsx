@@ -18,9 +18,15 @@ export default function RandomCall() {
   const [status, setStatus] = useState("Ready to find a partner");
   const [isSearching, setIsSearching] = useState(false);
   const [partnerFound, setPartnerFound] = useState(false);
+  const [isCallActive, setIsCallActive] = useState(false);
+
+const localStreamRef = useRef(null);
+const remoteStreamRef = useRef(null);
+const peerConnectionRef = useRef(null);
 
   const waitingDocRef = useRef(null);
   const listenerRef = useRef(null);
+  const matchIdRef = useRef(null);
 
   // --------------------------------
   // Stop Firestore listener
@@ -31,7 +37,79 @@ export default function RandomCall() {
       listenerRef.current = null;
     }
   };
+// --------------------------------
+// Create WebRTC Peer Connection
+// --------------------------------
+const createPeerConnection = (stream) => {
+  const peerConnection = new RTCPeerConnection({
+    iceServers: [
+      {
+        urls: "stun:stun.l.google.com:19302",
+      },
+    ],
+  });
 
+  peerConnectionRef.current = peerConnection;
+
+  // Add microphone tracks to the WebRTC connection
+  stream.getTracks().forEach((track) => {
+    peerConnection.addTrack(track, stream);
+  });
+
+  return peerConnection;
+};
+// --------------------------------
+// Get Microphone
+// --------------------------------
+const getMicrophone = async () => {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: false,
+    });
+
+    localStreamRef.current = stream;
+
+    return stream;
+  } catch (error) {
+    console.error("Microphone access error:", error);
+
+    alert(
+      "Microphone access is required for the voice call."
+    );
+
+    return null;
+  }
+};
+// --------------------------------
+// Create Call Signaling Document
+// --------------------------------
+const createCallDocument = async (matchId) => {
+  try {
+    const callRef = doc(db, "calls", matchId);
+
+    await setDoc(
+      callRef,
+      {
+        matchId,
+        createdAt: serverTimestamp(),
+        status: "waiting",
+      },
+      { merge: true }
+    );
+
+    console.log("📞 Call document created:", matchId);
+
+    return callRef;
+  } catch (error) {
+    console.error(
+      "Error creating call document:",
+      error
+    );
+
+    return null;
+  }
+};
   // --------------------------------
   // Find Speaking Partner
   // --------------------------------
@@ -91,61 +169,92 @@ export default function RandomCall() {
       // --------------------------------
       // Partner found
       // --------------------------------
-      if (partner) {
-        console.log(
-          "🎉 Partner found:",
-          partner
-        );
+      // --------------------------------
+// Partner found
+// --------------------------------
+if (partner) {
+  console.log(
+    "🎉 Partner found:",
+    partner
+  );
 
-        // Mark partner as matched
-        await setDoc(
-          doc(db, "waitingUsers", partner.id),
-          {
-            status: "matched",
-            matchedWith: currentUserId,
-            matchedAt: serverTimestamp(),
-          },
-          {
-            merge: true,
-          }
-        );
+  // --------------------------------
+  // Create match document FIRST
+  // --------------------------------
 
-        // Create match document
-        const matchRef = await addDoc(
-          collection(db, "matches"),
-          {
-            user1: partner.userId,
-            user2: currentUserId,
-            status: "matched",
-            createdAt: serverTimestamp(),
-          }
-        );
+  const matchRef = await addDoc(
+    collection(db, "matches"),
+    {
+      user1: partner.userId,
+      user2: currentUserId,
+      status: "matched",
+      createdAt: serverTimestamp(),
+    }
+  );
 
-        console.log(
-          "🎉 Match created:",
-          matchRef.id
-        );
+  const matchId = matchRef.id;
 
-        // Remove our own waiting document if it exists
-        if (waitingDocRef.current) {
-          await deleteDoc(waitingDocRef.current);
-          waitingDocRef.current = null;
-        }
+  // Save match ID locally
+  matchIdRef.current = matchId;
 
-        stopListening();
+  console.log(
+    "🎉 Match created:",
+    matchId
+  );
 
-        setPartnerFound(true);
-        setIsSearching(false);
-        setStatus(
-          "🟢 Speaking partner found!"
-        );
+  // --------------------------------
+  // Mark partner as matched
+  // --------------------------------
 
-        alert(
-          "🎉 Speaking partner found!"
-        );
+  await setDoc(
+    doc(db, "waitingUsers", partner.id),
+    {
+      status: "matched",
+      matchedWith: currentUserId,
+      matchId: matchId,
+      matchedAt: serverTimestamp(),
+    },
+    {
+      merge: true,
+    }
+  );
 
-        return;
-      }
+  console.log(
+    "✅ Partner waiting document updated"
+  );
+
+  // --------------------------------
+  // Create WebRTC call document
+  // --------------------------------
+
+  await createCallDocument(matchId);
+
+  // --------------------------------
+  // Remove our own waiting document
+  // --------------------------------
+
+  if (waitingDocRef.current) {
+    await deleteDoc(
+      waitingDocRef.current
+    );
+
+    waitingDocRef.current = null;
+  }
+
+  stopListening();
+
+  setPartnerFound(true);
+  setIsSearching(false);
+  setStatus(
+    "🟢 Speaking partner found!"
+  );
+
+  alert(
+    "🎉 Speaking partner found!"
+  );
+
+  return;
+}
 
       // --------------------------------
       // Nobody waiting
@@ -200,6 +309,12 @@ export default function RandomCall() {
               "🎉 Match received:",
               data
             );
+            const matchedUserId = data.matchedWith;
+
+console.log(
+  "📌 Matched with user:",
+  matchedUserId
+);
 
             stopListening();
 
@@ -212,6 +327,7 @@ export default function RandomCall() {
             alert(
               "🎉 Your speaking partner has been found!"
             );
+
           }
         },
         (error) => {
@@ -378,11 +494,28 @@ export default function RandomCall() {
               </p>
 
               <button
-                onClick={() => {
-                  alert(
-                    "Voice connection will be added next."
-                  );
-                }}
+                onClick={async () => {
+  try {
+    const stream = await getMicrophone();
+
+    if (stream) {
+      console.log("🎙️ Microphone connected successfully");
+
+      setIsCallActive(true);
+
+      alert("🎙️ Microphone connected successfully!");
+    }
+  } catch (error) {
+    console.error(
+      "Microphone error:",
+      error
+    );
+
+    alert(
+      "Could not access your microphone."
+    );
+  }
+}}
                 className="mt-6 px-8 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white rounded-xl font-semibold hover:scale-[1.02] transition"
               >
                 🎙️ Start Voice Call

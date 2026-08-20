@@ -8,6 +8,7 @@ import {
   FaBookOpen,
   FaMicrophone,
   FaArrowRight,
+  FaRandom,
 } from "react-icons/fa";
 
 export default function Dashboard() {
@@ -196,7 +197,7 @@ export default function Dashboard() {
             Continue learning with one click.
           </p>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
+          <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             <button
   onClick={() => navigate("/practice")}
   className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
@@ -234,6 +235,24 @@ export default function Dashboard() {
                 </p>
               </div>
             </button>
+            <button
+  onClick={() => navigate("/random-call")}
+  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+>
+  <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
+    <FaRandom />
+  </div>
+
+  <div className="text-left">
+    <h3 className="font-bold text-slate-900">
+      Random Voice Call
+    </h3>
+
+    <p className="text-sm text-slate-500">
+      Find a speaking partner
+    </p>
+  </div>
+</button>
 
           <button
   onClick={() => navigate("/vocabulary")}

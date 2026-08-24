@@ -9,6 +9,7 @@ import Practice from "./pages/Practice";
 import Vocabulary from "./pages/Vocabulary";
 import VoiceRooms from "./pages/VoiceRooms";
 import RandomCall from "./pages/RandomCall";
+import DailyChallenge from "./pages/DailyChallenge";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -61,6 +62,14 @@ function App() {
   element={
     <ProtectedRoute>
       <RandomCall />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/daily-challenge"
+  element={
+    <ProtectedRoute>
+      <DailyChallenge />
     </ProtectedRoute>
   }
 />

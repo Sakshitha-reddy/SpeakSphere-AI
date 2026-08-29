@@ -9,6 +9,7 @@ import {
   FaMicrophone,
   FaArrowRight,
   FaRandom,
+  FaBullseye,
 } from "react-icons/fa";
 
 export default function Dashboard() {
@@ -187,94 +188,121 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="mt-12 rounded-3xl bg-white p-8 shadow-lg">
-          <h2 className="text-3xl font-bold text-slate-900">
-            Quick Actions
-          </h2>
+      {/* Quick Actions */}
+<div className="mt-12 rounded-3xl bg-white p-8 shadow-lg">
+  <h2 className="text-3xl font-bold text-slate-900">
+    Quick Actions
+  </h2>
 
-          <p className="mt-2 text-slate-500">
-            Continue learning with one click.
-          </p>
+  <p className="mt-2 text-slate-500">
+    Continue learning with one click.
+  </p>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            <button
-  onClick={() => navigate("/practice")}
-  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
->
-              <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
-                <FaMicrophone />
-              </div>
+  <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
 
-              <div className="text-left">
-                <h3 className="font-bold text-slate-900">
-                  Start Speaking
-                </h3>
+    {/* START SPEAKING */}
+    <button
+      onClick={() => navigate("/practice")}
+      className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+    >
+      <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
+        <FaMicrophone />
+      </div>
 
-                <p className="text-sm text-slate-500">
-                  Practice with AI
-                </p>
-              </div>
-            </button>
+      <div>
+        <h3 className="font-bold text-slate-900">
+          Start Speaking
+        </h3>
 
-           <button
-  onClick={() => navigate("/rooms")}
-  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
->
-              <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
-                <FaUsers />
-              </div>
+        <p className="text-sm text-slate-500">
+          Practice with AI
+        </p>
+      </div>
+    </button>
 
-              <div className="text-left">
-                <h3 className="font-bold text-slate-900">
-                  Voice Rooms
-                </h3>
+    {/* VOICE ROOMS */}
+    <button
+      onClick={() => navigate("/rooms")}
+      className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+    >
+      <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
+        <FaUsers />
+      </div>
 
-                <p className="text-sm text-slate-500">
-                  Join live learners
-                </p>
-              </div>
-            </button>
-            <button
-  onClick={() => navigate("/random-call")}
-  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
->
-  <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
-    <FaRandom />
+      <div>
+        <h3 className="font-bold text-slate-900">
+          Voice Rooms
+        </h3>
+
+        <p className="text-sm text-slate-500">
+          Join live learners
+        </p>
+      </div>
+    </button>
+
+    {/* RANDOM VOICE CALL */}
+    <button
+      onClick={() => navigate("/random-call")}
+      className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+    >
+      <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
+        <FaRandom />
+      </div>
+
+      <div>
+        <h3 className="font-bold text-slate-900">
+          Random Voice Call
+        </h3>
+
+        <p className="text-sm text-slate-500">
+          Find a speaking partner
+        </p>
+      </div>
+    </button>
+
+    {/* VOCABULARY */}
+    <button
+      onClick={() => navigate("/vocabulary")}
+      className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+    >
+      <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
+        <FaBookOpen />
+      </div>
+
+      <div>
+        <h3 className="font-bold text-slate-900">
+          Vocabulary
+        </h3>
+
+        <p className="text-sm text-slate-500">
+          Learn new words
+        </p>
+      </div>
+    </button>
+
+    {/* DAILY CHALLENGE */}
+    <button
+      onClick={() => navigate("/daily-challenge")}
+      className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+    >
+      <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
+        <FaBullseye />
+      </div>
+
+      <div>
+        <h3 className="font-bold text-slate-900">
+          Daily Challenge
+        </h3>
+
+        <p className="text-sm text-slate-500">
+          Practice speaking every day
+        </p>
+      </div>
+    </button>
+
   </div>
-
-  <div className="text-left">
-    <h3 className="font-bold text-slate-900">
-      Random Voice Call
-    </h3>
-
-    <p className="text-sm text-slate-500">
-      Find a speaking partner
-    </p>
-  </div>
-</button>
-
-          <button
-  onClick={() => navigate("/vocabulary")}
-  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
->
-              <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
-                <FaBookOpen />
-              </div>
-
-              <div className="text-left">
-                <h3 className="font-bold text-slate-900">
-                  Vocabulary
-                </h3>
-
-                <p className="text-sm text-slate-500">
-                  Learn new words
-                </p>
-              </div>
-            </button>
-          </div>
-        </div>
-      </main>
+</div>
+</main>
     </div>
   );
 }

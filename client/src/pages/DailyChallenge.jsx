@@ -16,8 +16,14 @@ export default function DailyChallenge() {
   const [seconds, setSeconds] = useState(60);
   const [isStarted, setIsStarted] = useState(false);
   const [completed, setCompleted] = useState(false);
+
   const [transcript, setTranscript] = useState("");
+
   const [isListening, setIsListening] = useState(false);
+
+  const [score, setScore] = useState(0);
+  const [wordCount, setWordCount] = useState(0);
+  const [wordsPerMinute, setWordsPerMinute] = useState(0);
 
   // =====================================
   // SPEECH RECOGNITION REFS
@@ -25,16 +31,16 @@ export default function DailyChallenge() {
 
   const recognitionRef = useRef(null);
 
-  // Tells us whether the challenge should still be listening
+  // Keeps track of whether challenge is running
   const isStartedRef = useRef(false);
 
-  // Stores only finalized speech
+  // Stores finalized speech
   const finalTranscriptRef = useRef("");
 
   // Prevents multiple recognition sessions
   const recognitionRunningRef = useRef(false);
 
-  // Stores a pending restart timer
+  // Stores pending restart timer
   const restartTimerRef = useRef(null);
 
   // =====================================
@@ -42,11 +48,13 @@ export default function DailyChallenge() {
   // =====================================
 
   const stopRecognition = () => {
+    // Clear pending restart
     if (restartTimerRef.current) {
       clearTimeout(restartTimerRef.current);
       restartTimerRef.current = null;
     }
 
+    // Stop recognition
     if (recognitionRef.current) {
       try {
         recognitionRef.current.stop();
@@ -63,188 +71,340 @@ export default function DailyChallenge() {
   // START RECOGNITION
   // =====================================
 
- const startRecognition = () => {
-  if (!recognitionRef.current) {
-    console.log("❌ Recognition object not available");
-    return;
-  }
-
-  if (!isStartedRef.current) {
-    console.log("🛑 Challenge is not active");
-    return;
-  }
-
-  if (recognitionRunningRef.current) {
-    console.log("🎤 Recognition is already running");
-    return;
-  }
-
-  try {
-    console.log("🎤 Starting speech recognition...");
-
-    recognitionRunningRef.current = true;
-
-    recognitionRef.current.start();
-  } catch (error) {
-    console.log(
-      "⚠️ Could not start recognition:",
-      error
-    );
-
-    recognitionRunningRef.current = false;
-
-    // Try again after a short delay
-    if (isStartedRef.current) {
-      setTimeout(() => {
-        startRecognition();
-      }, 1000);
-    }
-  }
-};
- // =====================================
-// SPEECH RECOGNITION
-// =====================================
-
-useEffect(() => {
-  const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
-  if (!SpeechRecognition) {
-    console.error(
-      "Speech Recognition is not supported in this browser."
-    );
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
-
-  recognition.continuous = true;
-  recognition.interimResults = true;
-  recognition.lang = "en-US";
-
-  // -------------------------------------
-  // STARTED
-  // -------------------------------------
-
-  recognition.onstart = () => {
-    console.log("🎤 Speech recognition started");
-    setIsListening(true);
-  };
-
-  // -------------------------------------
-  // RESULT
-  // -------------------------------------
-
-  recognition.onresult = (event) => {
-    let interimTranscript = "";
-
-    for (
-      let i = event.resultIndex;
-      i < event.results.length;
-      i++
-    ) {
-      const text =
-        event.results[i][0].transcript;
-
-      if (event.results[i].isFinal) {
-        finalTranscriptRef.current +=
-          text + " ";
-      } else {
-        interimTranscript += text;
-      }
-    }
-
-    const displayText = (
-      finalTranscriptRef.current +
-      interimTranscript
-    ).trim();
-
-    console.log("🗣️ Speech:", displayText);
-
-    setTranscript(displayText);
-  };
-
-  // -------------------------------------
-  // ENDED
-  // -------------------------------------
-
-  recognition.onend = () => {
-    console.log(
-      "⚠️ Speech recognition ended"
-    );
-
-    setIsListening(false);
-
-    // If challenge is still running,
-    // automatically start recognition again.
-    if (isStartedRef.current) {
-      console.log(
-        "🔄 Restarting speech recognition..."
-      );
-
-      setTimeout(() => {
-        if (!isStartedRef.current) {
-          return;
-        }
-
-        try {
-          recognition.start();
-
-          console.log(
-            "🎤 Speech recognition restarted"
-          );
-        } catch (error) {
-          console.log(
-            "Recognition restart skipped:",
-            error.message
-          );
-        }
-      }, 300);
-    }
-  };
-
-  // -------------------------------------
-  // ERROR
-  // -------------------------------------
-
-  recognition.onerror = (event) => {
-    console.error(
-      "❌ Speech recognition error:",
-      event.error
-    );
-
-    // These errors can happen normally
-    // when the browser stops listening.
-    if (
-      event.error === "no-speech" ||
-      event.error === "aborted"
-    ) {
+  const startRecognition = () => {
+    if (!recognitionRef.current) {
+      console.log("❌ Recognition object not available");
       return;
     }
 
-    setIsListening(false);
-  };
+    if (!isStartedRef.current) {
+      console.log("🛑 Challenge is not active");
+      return;
+    }
 
-  recognitionRef.current = recognition;
-
-  // -------------------------------------
-  // CLEANUP
-  // -------------------------------------
-
-  return () => {
-    isStartedRef.current = false;
+    if (recognitionRunningRef.current) {
+      console.log("🎤 Recognition is already running");
+      return;
+    }
 
     try {
-      recognition.stop();
+      console.log("🎤 Starting speech recognition...");
+
+      recognitionRunningRef.current = true;
+
+      recognitionRef.current.start();
     } catch (error) {
       console.log(
-        "Recognition cleanup:",
-        error.message
+        "⚠️ Could not start recognition:",
+        error
       );
+
+      recognitionRunningRef.current = false;
+
+      if (isStartedRef.current) {
+        restartTimerRef.current = setTimeout(() => {
+          restartTimerRef.current = null;
+
+          if (isStartedRef.current) {
+            startRecognition();
+          }
+        }, 1000);
+      }
     }
   };
-}, []);
+
+  // =====================================
+  // CALCULATE SPEAKING SCORE
+  // =====================================
+
+  const calculateSpeakingScore = (remainingSeconds = seconds) => {
+    const text = finalTranscriptRef.current.trim();
+
+    // No speech
+    if (!text) {
+      return {
+        score: 0,
+        wordCount: 0,
+        wordsPerMinute: 0,
+      };
+    }
+
+    // -------------------------------------
+    // COUNT WORDS
+    // -------------------------------------
+
+    const words = text
+      .split(/\s+/)
+      .filter((word) => word.length > 0);
+
+    const wordCount = words.length;
+
+    // -------------------------------------
+    // CALCULATE ELAPSED TIME
+    // -------------------------------------
+
+    const elapsedSeconds = Math.max(
+      0,
+      60 - remainingSeconds
+    );
+
+    const minutes = elapsedSeconds / 60;
+
+    const wordsPerMinute =
+      minutes > 0
+        ? Math.round(wordCount / minutes)
+        : 0;
+
+    // =====================================
+    // 1. FLUENCY SCORE - 40 POINTS
+    // =====================================
+
+    let fluencyScore = 0;
+
+    if (wordCount >= 80) {
+      fluencyScore = 40;
+    } else if (wordCount >= 60) {
+      fluencyScore = 35;
+    } else if (wordCount >= 40) {
+      fluencyScore = 30;
+    } else if (wordCount >= 20) {
+      fluencyScore = 20;
+    } else {
+      fluencyScore = 10;
+    }
+
+    // =====================================
+    // 2. SPEAKING SPEED - 30 POINTS
+    // =====================================
+
+    let speedScore = 0;
+
+    if (
+      wordsPerMinute >= 90 &&
+      wordsPerMinute <= 150
+    ) {
+      speedScore = 30;
+    } else if (
+      wordsPerMinute >= 70 &&
+      wordsPerMinute <= 170
+    ) {
+      speedScore = 25;
+    } else if (
+      wordsPerMinute >= 50 &&
+      wordsPerMinute <= 190
+    ) {
+      speedScore = 20;
+    } else {
+      speedScore = 10;
+    }
+
+    // =====================================
+    // 3. COMPLETION - 30 POINTS
+    // =====================================
+
+    let completionScore = 0;
+
+    if (elapsedSeconds >= 55) {
+      completionScore = 30;
+    } else if (elapsedSeconds >= 45) {
+      completionScore = 25;
+    } else if (elapsedSeconds >= 30) {
+      completionScore = 20;
+    } else {
+      completionScore = 10;
+    }
+
+    // =====================================
+    // FINAL SCORE
+    // =====================================
+
+    const finalScore =
+      fluencyScore +
+      speedScore +
+      completionScore;
+
+    return {
+      score: Math.min(100, finalScore),
+      wordCount,
+      wordsPerMinute,
+    };
+  };
+
+  // =====================================
+  // COMPLETE CHALLENGE
+  // =====================================
+
+  const completeChallenge = (remainingTime = seconds) => {
+    console.log("✅ Completing Daily Challenge");
+
+    // Prevent speech recognition from restarting
+    isStartedRef.current = false;
+
+    // Calculate result BEFORE changing state
+    const result =
+      calculateSpeakingScore(remainingTime);
+
+    console.log("📊 Speaking Result:", result);
+
+    // Save result
+    setScore(result.score);
+    setWordCount(result.wordCount);
+    setWordsPerMinute(result.wordsPerMinute);
+
+    // Stop everything
+    stopRecognition();
+
+    setIsStarted(false);
+    setCompleted(true);
+  };
+
+  // =====================================
+  // SPEECH RECOGNITION SETUP
+  // =====================================
+
+  useEffect(() => {
+    const SpeechRecognition =
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      console.error(
+        "Speech Recognition is not supported in this browser."
+      );
+
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = "en-US";
+
+    // =====================================
+    // RECOGNITION START
+    // =====================================
+
+    recognition.onstart = () => {
+      console.log("🎤 Speech recognition started");
+
+      recognitionRunningRef.current = true;
+
+      setIsListening(true);
+    };
+
+    // =====================================
+    // RECOGNITION RESULT
+    // =====================================
+
+    recognition.onresult = (event) => {
+      let interimTranscript = "";
+
+      for (
+        let i = event.resultIndex;
+        i < event.results.length;
+        i++
+      ) {
+        const text =
+          event.results[i][0].transcript;
+
+        if (event.results[i].isFinal) {
+          finalTranscriptRef.current +=
+            text + " ";
+        } else {
+          interimTranscript += text;
+        }
+      }
+
+      const displayText = (
+        finalTranscriptRef.current +
+        interimTranscript
+      ).trim();
+
+      console.log("🗣️ Speech:", displayText);
+
+      setTranscript(displayText);
+    };
+
+    // =====================================
+    // RECOGNITION END
+    // =====================================
+
+    recognition.onend = () => {
+      console.log(
+        "⚠️ Speech recognition ended"
+      );
+
+      recognitionRunningRef.current = false;
+
+      setIsListening(false);
+
+      // Only restart if challenge is still active
+      if (isStartedRef.current) {
+        console.log(
+          "🔄 Restarting speech recognition..."
+        );
+
+        restartTimerRef.current = setTimeout(() => {
+          restartTimerRef.current = null;
+
+          if (!isStartedRef.current) {
+            return;
+          }
+
+          startRecognition();
+        }, 300);
+      }
+    };
+
+    // =====================================
+    // RECOGNITION ERROR
+    // =====================================
+
+    recognition.onerror = (event) => {
+      console.error(
+        "❌ Speech recognition error:",
+        event.error
+      );
+
+      recognitionRunningRef.current = false;
+
+      if (
+        event.error === "no-speech" ||
+        event.error === "aborted"
+      ) {
+        return;
+      }
+
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+
+    // =====================================
+    // CLEANUP
+    // =====================================
+
+    return () => {
+      isStartedRef.current = false;
+
+      if (restartTimerRef.current) {
+        clearTimeout(restartTimerRef.current);
+        restartTimerRef.current = null;
+      }
+
+      try {
+        recognition.stop();
+      } catch (error) {
+        console.log(
+          "Recognition cleanup:",
+          error.message
+        );
+      }
+
+      recognitionRef.current = null;
+    };
+  }, []);
 
   // =====================================
   // TIMER
@@ -261,17 +421,22 @@ useEffect(() => {
 
     const timer = setInterval(() => {
       setSeconds((prev) => {
+        // =====================================
+        // TIME IS UP
+        // =====================================
+
         if (prev <= 1) {
           clearInterval(timer);
 
+          console.log(
+            "⏰ Time is up. Completing challenge..."
+          );
+
           // IMPORTANT:
-          // Tell speech recognition that
-          // the challenge has finished.
-          isStartedRef.current = false;
-
-          stopRecognition();
-
-          setIsStarted(false);
+          // We pass 0 directly so the score
+          // calculation knows the challenge
+          // lasted the full 60 seconds.
+          completeChallenge(0);
 
           return 0;
         }
@@ -290,26 +455,34 @@ useEffect(() => {
   // =====================================
 
   const startChallenge = () => {
-    console.log("▶️ Starting Daily Challenge");
+    console.log(
+      "▶️ Starting Daily Challenge"
+    );
 
-    // Clear any old recognition state
+    // Clear old restart timer
     if (restartTimerRef.current) {
       clearTimeout(restartTimerRef.current);
       restartTimerRef.current = null;
     }
 
-    // Mark challenge as active BEFORE
-    // starting speech recognition.
+    // Mark challenge as active
     isStartedRef.current = true;
 
     recognitionRunningRef.current = false;
 
+    // Reset states
     setIsStarted(true);
     setCompleted(false);
+
     setSeconds(60);
 
-    // Clear previous speech
     setTranscript("");
+
+    setScore(0);
+    setWordCount(0);
+    setWordsPerMinute(0);
+
+    // Clear old speech
     finalTranscriptRef.current = "";
 
     // Start microphone
@@ -317,41 +490,36 @@ useEffect(() => {
   };
 
   // =====================================
-  // COMPLETE CHALLENGE
-  // =====================================
-
-  const completeChallenge = () => {
-    console.log("✅ Completing Daily Challenge");
-
-    // IMPORTANT:
-    // Prevent recognition from restarting.
-    isStartedRef.current = false;
-
-    setCompleted(true);
-    setIsStarted(false);
-
-    stopRecognition();
-
-    setIsListening(false);
-  };
-
-  // =====================================
-  // RESET
+  // RESET CHALLENGE
   // =====================================
 
   const resetChallenge = () => {
-    console.log("🔄 Resetting Daily Challenge");
+    console.log(
+      "🔄 Resetting Daily Challenge"
+    );
 
     // Prevent recognition restart
     isStartedRef.current = false;
 
+    // Stop recognition
     stopRecognition();
 
+    // Reset states
     setSeconds(60);
+
     setIsStarted(false);
+
     setCompleted(false);
 
     setTranscript("");
+
+    setScore(0);
+
+    setWordCount(0);
+
+    setWordsPerMinute(0);
+
+    // Clear speech
     finalTranscriptRef.current = "";
 
     setIsListening(false);
@@ -361,11 +529,11 @@ useEffect(() => {
   // FORMATTED TIMER
   // =====================================
 
-  const formattedTime = `00:${String(seconds).padStart(
-    2,
-    "0"
-  )}`;
-    // =====================================
+  const formattedTime = `00:${String(
+    seconds
+  ).padStart(2, "0")}`;
+
+  // =====================================
   // PAGE
   // =====================================
 
@@ -522,11 +690,9 @@ useEffect(() => {
             </h3>
 
             {seconds === 0 && !completed && (
-
               <p className="mt-3 font-semibold text-orange-500">
                 Time's up! 🎉
               </p>
-
             )}
 
           </div>
@@ -544,11 +710,9 @@ useEffect(() => {
               </h3>
 
               {isListening && (
-
                 <span className="rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-600">
                   🔴 Listening...
                 </span>
-
               )}
 
             </div>
@@ -556,16 +720,12 @@ useEffect(() => {
             <div className="mt-4 min-h-[150px] rounded-2xl bg-white p-5 text-slate-700 shadow-sm">
 
               {transcript ? (
-
                 transcript
-
               ) : (
-
                 <span className="text-slate-400">
                   Your speech will appear here when you start
                   speaking...
                 </span>
-
               )}
 
             </div>
@@ -573,17 +733,14 @@ useEffect(() => {
           </div>
 
           {/* ================================= */}
-          {/* STATUS */}
+          {/* COMPLETED RESULT */}
           {/* ================================= */}
 
           {completed && (
-
-            <div className="mt-8 rounded-2xl bg-green-50 p-6 text-center">
+            <div className="mt-8 rounded-3xl bg-green-50 p-6 text-center">
 
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-2xl text-green-600">
-
                 <FaCheck />
-
               </div>
 
               <h3 className="mt-4 text-2xl font-bold text-green-700">
@@ -594,8 +751,55 @@ useEffect(() => {
                 Great job! Keep practicing every day.
               </p>
 
-            </div>
+              {/* SCORE CARDS */}
 
+              <div className="mt-6 grid gap-4 sm:grid-cols-3">
+
+                {/* SCORE */}
+
+                <div className="rounded-2xl bg-white p-5 shadow-sm">
+
+                  <p className="text-sm font-medium text-slate-500">
+                    Speaking Score
+                  </p>
+
+                  <p className="mt-2 text-4xl font-bold text-violet-700">
+                    {score}/100
+                  </p>
+
+                </div>
+
+                {/* WORD COUNT */}
+
+                <div className="rounded-2xl bg-white p-5 shadow-sm">
+
+                  <p className="text-sm font-medium text-slate-500">
+                    Words Spoken
+                  </p>
+
+                  <p className="mt-2 text-4xl font-bold text-violet-700">
+                    {wordCount}
+                  </p>
+
+                </div>
+
+                {/* WPM */}
+
+                <div className="rounded-2xl bg-white p-5 shadow-sm">
+
+                  <p className="text-sm font-medium text-slate-500">
+                    Speaking Speed
+                  </p>
+
+                  <p className="mt-2 text-4xl font-bold text-violet-700">
+                    {wordsPerMinute} WPM
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
           )}
 
           {/* ================================= */}
@@ -604,8 +808,9 @@ useEffect(() => {
 
           <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
 
-            {!isStarted && !completed && (
+            {/* START */}
 
+            {!isStarted && !completed && (
               <button
                 onClick={startChallenge}
                 className="flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-500 px-8 py-4 font-semibold text-white transition hover:scale-105"
@@ -616,13 +821,13 @@ useEffect(() => {
                 Start Challenge
 
               </button>
-
             )}
 
-            {isStarted && (
+            {/* COMPLETE MANUALLY */}
 
+            {isStarted && (
               <button
-                onClick={completeChallenge}
+                onClick={() => completeChallenge(seconds)}
                 className="flex items-center justify-center gap-3 rounded-2xl bg-green-600 px-8 py-4 font-semibold text-white transition hover:scale-105 hover:bg-green-700"
               >
 
@@ -631,24 +836,24 @@ useEffect(() => {
                 Complete Challenge
 
               </button>
-
             )}
 
-            {completed && (
+            {/* TRY AGAIN */}
 
+            {completed && (
               <button
                 onClick={resetChallenge}
                 className="rounded-2xl border border-violet-300 px-8 py-4 font-semibold text-violet-700 transition hover:bg-violet-50"
               >
                 Try Again
               </button>
-
             )}
 
           </div>
 
         </div>
-                {/* ================================= */}
+
+        {/* ================================= */}
         {/* SPEAKING TIPS */}
         {/* ================================= */}
 

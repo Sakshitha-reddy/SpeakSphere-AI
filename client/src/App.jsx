@@ -73,6 +73,7 @@ function App() {
     </ProtectedRoute>
   }
 />
+
     </Routes>
   );
 }

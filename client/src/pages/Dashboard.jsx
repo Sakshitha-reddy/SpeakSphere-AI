@@ -14,12 +14,19 @@ import {
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  
   const [userData, setUserData] = useState({
     streak: 0,
     fluencyScore: 0,
     lessonsCompleted: 0,
     vocabulary: 0,
   });
+  const weeklyGoal = 7;
+
+const progressPercentage = Math.min(
+  Math.round((userData.lessonsCompleted / weeklyGoal) * 100),
+  100
+);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -149,17 +156,20 @@ export default function Dashboard() {
             </h3>
 
             <p className="mt-2 text-slate-500">
-              You've completed 75% of this week's goal.
+              You've completed {progressPercentage}% of your learning goal.
             </p>
 
             <div className="mt-8">
               <div className="mb-3 flex justify-between text-sm font-medium">
                 <span>Progress</span>
-                <span>75%</span>
+                <span>{progressPercentage}%</span>
               </div>
 
               <div className="h-4 rounded-full bg-slate-200">
-                <div className="h-4 w-3/4 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500"></div>
+               <div
+  className="h-4 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500"
+  style={{ width: `${progressPercentage}%` }}
+></div>
               </div>
             </div>
 

@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { doc, setDoc, increment } from "firebase/firestore";
+import { auth, db } from "../firebase/firebase";
 import {
   FaArrowLeft,
   FaBullseye,
@@ -7,8 +9,52 @@ import {
   FaClock,
   FaMicrophone,
 } from "react-icons/fa";
+const DAILY_TOPICS = [
+  "Describe your dream career.",
+  "Talk about your favorite movie.",
+  "Describe your best friend.",
+  "What would you do if you won ₹10 lakh?",
+  "Describe your ideal vacation.",
+  "Talk about a skill you want to learn.",
+  "Describe your biggest achievement.",
+  "Talk about your favorite food.",
+  "Describe your perfect day.",
+  "Talk about a person who inspires you.",
+  "Describe your favorite place.",
+  "What is your biggest goal in life?",
+  "Talk about your favorite hobby.",
+  "Describe your dream house.",
+  "Talk about your favorite childhood memory.",
+  "What makes you happy?",
+  "Describe a country you want to visit.",
+  "Talk about your favorite book.",
+  "What would you change about your school or college?",
+  "Describe your ideal job.",
+  "Talk about a difficult situation you overcame.",
+  "What is one thing you cannot live without?",
+  "Describe your morning routine.",
+  "Talk about your favorite festival.",
+  "What does success mean to you?",
+  "Describe your favorite season.",
+  "Talk about something you are proud of.",
+  "If you could meet anyone, who would it be?",
+  "Describe your plans for the next five years.",
+  "What advice would you give to your younger self?",
+];
+
+function getDailyTopic() {
+  const today = new Date();
+
+  const startOfYear = new Date(today.getFullYear(), 0, 0);
+  const dayOfYear = Math.floor(
+    (today - startOfYear) / (1000 * 60 * 60 * 24)
+  );
+
+  return DAILY_TOPICS[(dayOfYear - 1) % DAILY_TOPICS.length];
+}
 
 export default function DailyChallenge() {
+  const dailyTopic = getDailyTopic();
   // =====================================
   // STATES
   // =====================================
@@ -159,7 +205,7 @@ export default function DailyChallenge() {
     // 1. FLUENCY SCORE - 40 POINTS
     // =====================================
 
-    let fluencyScore = 0;
+    let fluencyScore;
 
     if (wordCount >= 80) {
       fluencyScore = 40;
@@ -176,8 +222,7 @@ export default function DailyChallenge() {
     // =====================================
     // 2. SPEAKING SPEED - 30 POINTS
     // =====================================
-
-    let speedScore = 0;
+let speedScore;
 
     if (
       wordsPerMinute >= 90 &&
@@ -202,7 +247,7 @@ export default function DailyChallenge() {
     // 3. COMPLETION - 30 POINTS
     // =====================================
 
-    let completionScore = 0;
+    let completionScore;
 
     if (elapsedSeconds >= 55) {
       completionScore = 30;
@@ -234,7 +279,7 @@ export default function DailyChallenge() {
   // COMPLETE CHALLENGE
   // =====================================
 
-  const completeChallenge = (remainingTime = seconds) => {
+  const completeChallenge = async (remainingTime = seconds) => {
     console.log("✅ Completing Daily Challenge");
 
     // Prevent speech recognition from restarting
@@ -245,6 +290,24 @@ export default function DailyChallenge() {
       calculateSpeakingScore(remainingTime);
 
     console.log("📊 Speaking Result:", result);
+    // Save Daily Challenge result to Firebase
+if (auth.currentUser) {
+  const userRef = doc(db, "users", auth.currentUser.uid);
+
+  await setDoc(
+    userRef,
+    {
+      fluencyScore: result.score,
+      lessonsCompleted: increment(1),
+      lastChallengeDate: new Date(),
+      lastChallengeWords: result.wordCount,
+      lastChallengeWPM: result.wordsPerMinute,
+    },
+    { merge: true }
+  );
+
+  console.log("🔥 Daily Challenge saved to Firebase");
+}
 
     // Save result
     setScore(result.score);
@@ -658,7 +721,7 @@ export default function DailyChallenge() {
             </p>
 
             <h3 className="mt-3 text-3xl font-bold text-slate-900">
-              "Describe your dream career."
+             "{dailyTopic}"
             </h3>
 
             <p className="mt-4 leading-7 text-slate-600">

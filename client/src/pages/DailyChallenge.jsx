@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { doc, setDoc, increment } from "firebase/firestore";
+import { doc, getDoc, setDoc, increment } from "firebase/firestore";
 import { auth, db } from "../firebase/firebase";
 import {
   FaArrowLeft,
@@ -291,22 +291,79 @@ let speedScore;
 
     console.log("📊 Speaking Result:", result);
     // Save Daily Challenge result to Firebase
+// Save Daily Challenge result to Firebase
 if (auth.currentUser) {
   const userRef = doc(db, "users", auth.currentUser.uid);
 
-  await setDoc(
-    userRef,
-    {
-      fluencyScore: result.score,
-      lessonsCompleted: increment(1),
-      lastChallengeDate: new Date(),
-      lastChallengeWords: result.wordCount,
-      lastChallengeWPM: result.wordsPerMinute,
-    },
-    { merge: true }
-  );
+  try {
+    const userSnap = await getDoc(userRef);
+    const userData = userSnap.exists() ? userSnap.data() : {};
 
-  console.log("🔥 Daily Challenge saved to Firebase");
+    const today = new Date();
+    const todayString = today.toISOString().split("T")[0];
+
+    const lastChallengeDate = userData.lastChallengeDate?.toDate
+      ? userData.lastChallengeDate.toDate()
+      : null;
+
+    let currentStreak = userData.streak || 0;
+    let completedToday = false;
+
+    if (!lastChallengeDate) {
+      currentStreak = 1;
+    } else {
+      const lastDateString = lastChallengeDate
+        .toISOString()
+        .split("T")[0];
+
+      const yesterday = new Date(today);
+      yesterday.setDate(today.getDate() - 1);
+
+      const yesterdayString = yesterday
+        .toISOString()
+        .split("T")[0];
+
+      if (lastDateString === todayString) {
+        // Already completed today's challenge
+        currentStreak = userData.streak || 1;
+        completedToday = true;
+      } else if (lastDateString === yesterdayString) {
+        // Completed yesterday → increase streak
+        currentStreak = (userData.streak || 0) + 1;
+      } else {
+        // Missed one or more days → reset streak
+        currentStreak = 1;
+      }
+    }
+
+    await setDoc(
+      userRef,
+      {
+        fluencyScore: result.score,
+        streak: currentStreak,
+        lastChallengeDate: new Date(),
+        lastChallengeWords: result.wordCount,
+        lastChallengeWPM: result.wordsPerMinute,
+
+        // Only count the challenge once per day
+        ...(completedToday
+          ? {}
+          : {
+              lessonsCompleted: increment(1),
+            }),
+      },
+      { merge: true }
+    );
+
+    console.log("🔥 Daily Challenge saved to Firebase");
+    console.log("🔥 Current streak:", currentStreak);
+
+    if (completedToday) {
+      console.log("ℹ️ Today's challenge was already completed.");
+    }
+  } catch (error) {
+    console.error("❌ Error saving Daily Challenge:", error);
+  }
 }
 
     // Save result

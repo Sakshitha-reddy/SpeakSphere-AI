@@ -17,53 +17,182 @@ export default function Vocabulary() {
   const [loading, setLoading] = useState(true);
 
   const words = [
-    {
-      word: "Confident",
-      meaning: "Feeling sure about your abilities or decisions.",
-      example:
-        "She felt confident while speaking English in front of the class.",
-      pronunciation: "kon-fi-dent",
-    },
-    {
-      word: "Fluent",
-      meaning: "Able to speak a language easily and naturally.",
-      example:
-        "He became fluent in English after practicing every day.",
-      pronunciation: "floo-ent",
-    },
-    {
-      word: "Improve",
-      meaning: "To become better at something.",
-      example:
-        "I want to improve my English speaking skills.",
-      pronunciation: "im-proov",
-    },
-    {
-      word: "Curious",
-      meaning:
-        "Wanting to learn or know more about something.",
-      example:
-        "She is curious about how artificial intelligence works.",
-      pronunciation: "kyoo-ree-us",
-    },
-    {
-      word: "Communicate",
-      meaning:
-        "To share information, ideas, or feelings with someone.",
-      example:
-        "Good communication is important when learning a language.",
-      pronunciation: "kuh-myoo-ni-kayt",
-    },
-    {
-      word: "Opportunity",
-      meaning:
-        "A good chance to do or achieve something.",
-      example:
-        "Learning English can create many career opportunities.",
-      pronunciation: "op-er-too-ni-tee",
-    },
-  ];
-
+  {
+    word: "Confident",
+    meaning: "Feeling sure about your abilities or decisions.",
+    example: "She felt confident while speaking English in front of the class.",
+    pronunciation: "kon-fi-dent",
+  },
+  {
+    word: "Fluent",
+    meaning: "Able to speak a language easily and naturally.",
+    example: "He became fluent in English after practicing every day.",
+    pronunciation: "floo-ent",
+  },
+  {
+    word: "Improve",
+    meaning: "To become better at something.",
+    example: "I want to improve my English speaking skills.",
+    pronunciation: "im-proov",
+  },
+  {
+    word: "Curious",
+    meaning: "Wanting to learn or know more about something.",
+    example: "She is curious about how artificial intelligence works.",
+    pronunciation: "kyoo-ree-us",
+  },
+  {
+    word: "Communicate",
+    meaning: "To share information, ideas, or feelings with someone.",
+    example: "Good communication is important when learning a language.",
+    pronunciation: "kuh-myoo-ni-kayt",
+  },
+  {
+    word: "Opportunity",
+    meaning: "A good chance to do or achieve something.",
+    example: "Learning English can create many career opportunities.",
+    pronunciation: "op-er-too-ni-tee",
+  },
+  {
+    word: "Achieve",
+    meaning: "To successfully reach a goal.",
+    example: "She worked hard to achieve her dream.",
+    pronunciation: "uh-cheev",
+  },
+  {
+    word: "Confusing",
+    meaning: "Difficult to understand or explain.",
+    example: "The instructions were confusing at first.",
+    pronunciation: "kuhn-fyoo-zing",
+  },
+  {
+    word: "Express",
+    meaning: "To show or communicate an idea or feeling.",
+    example: "It is important to express your thoughts clearly.",
+    pronunciation: "ik-spres",
+  },
+  {
+    word: "Practice",
+    meaning: "To do something repeatedly to improve a skill.",
+    example: "You should practice speaking English every day.",
+    pronunciation: "prak-tis",
+  },
+  {
+    word: "Conversation",
+    meaning: "A talk between two or more people.",
+    example: "We had a short conversation in English.",
+    pronunciation: "kon-ver-say-shun",
+  },
+  {
+    word: "Vocabulary",
+    meaning: "The words that a person knows or uses.",
+    example: "Reading books can improve your vocabulary.",
+    pronunciation: "voh-kab-yuh-lair-ee",
+  },
+  {
+    word: "Grammar",
+    meaning: "The rules used to form correct sentences.",
+    example: "Good grammar makes your writing clearer.",
+    pronunciation: "gram-er",
+  },
+  {
+    word: "Pronounce",
+    meaning: "To say a word correctly.",
+    example: "Can you pronounce this word correctly?",
+    pronunciation: "pruh-nowns",
+  },
+  {
+    word: "Understand",
+    meaning: "To know the meaning of something.",
+    example: "I understand the question now.",
+    pronunciation: "un-der-stand",
+  },
+  {
+    word: "Explain",
+    meaning: "To make something clear or easy to understand.",
+    example: "The teacher explained the topic clearly.",
+    pronunciation: "ik-splayn",
+  },
+  {
+    word: "Respond",
+    meaning: "To answer or react to something.",
+    example: "Please respond to the question in English.",
+    pronunciation: "ri-spond",
+  },
+  {
+    word: "Confusion",
+    meaning: "A feeling of not understanding something clearly.",
+    example: "The teacher cleared up my confusion.",
+    pronunciation: "kuhn-fyoo-zhun",
+  },
+  {
+    word: "Accurate",
+    meaning: "Correct and free from mistakes.",
+    example: "Try to give an accurate answer.",
+    pronunciation: "ak-yuh-rut",
+  },
+  {
+    word: "Effective",
+    meaning: "Successful in producing the desired result.",
+    example: "Practice is an effective way to improve speaking.",
+    pronunciation: "ih-fek-tiv",
+  },
+  {
+    word: "Challenge",
+    meaning: "Something difficult that tests your ability.",
+    example: "Speaking with strangers can be a challenge.",
+    pronunciation: "chal-inj",
+  },
+  {
+    word: "Progress",
+    meaning: "Movement toward improvement or a goal.",
+    example: "I can see progress in my English speaking.",
+    pronunciation: "prog-res",
+  },
+  {
+    word: "Fluency",
+    meaning: "The ability to speak smoothly and naturally.",
+    example: "Regular practice can improve your fluency.",
+    pronunciation: "floo-en-see",
+  },
+  {
+    word: "Natural",
+    meaning: "Normal and comfortable rather than forced.",
+    example: "She speaks English in a very natural way.",
+    pronunciation: "nach-er-ul",
+  },
+  {
+    word: "Confidently",
+    meaning: "In a confident or self-assured way.",
+    example: "He answered the question confidently.",
+    pronunciation: "kon-fi-dent-lee",
+  },
+  {
+    word: "Encourage",
+    meaning: "To give someone support or confidence.",
+    example: "My teacher always encourages me to speak English.",
+    pronunciation: "en-kur-ij",
+  },
+  {
+    word: "Motivate",
+    meaning: "To give someone a reason or desire to do something.",
+    example: "Daily goals motivate me to keep learning.",
+    pronunciation: "moh-tuh-vayt",
+  },
+  {
+    word: "Habit",
+    meaning: "Something you do regularly.",
+    example: "Speaking English every day can become a good habit.",
+    pronunciation: "hab-it",
+  },
+ 
+  {
+    word: "Professional",
+    meaning: "Relating to a job or career.",
+    example: "Good communication is important in a professional environment.",
+    pronunciation: "pruh-fesh-uh-nul",
+  },
+];
   // =====================================
   // LOAD LEARNED WORDS FROM FIREBASE
   // =====================================

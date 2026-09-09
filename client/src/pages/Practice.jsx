@@ -1,6 +1,8 @@
 import { askGemini } from "../services/gemini";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { auth, db } from "../firebase/firebase";
+import { doc, getDoc, setDoc, increment } from "firebase/firestore";
 import {
   FaArrowLeft,
   FaMicrophone,
@@ -19,6 +21,32 @@ const [transcript, setTranscript] = useState("");
 const [lastUserMessage, setLastUserMessage] = useState("");
 const [aiReply, setAiReply] = useState("");
 const [seconds, setSeconds] = useState(0);
+  // ===============================
+  // SAVE PRACTICE PROGRESS
+  // ===============================
+
+  const savePracticeProgress = async () => {
+    const user = auth.currentUser;
+
+    if (!user) return;
+
+    try {
+      const userRef = doc(db, "users", user.uid);
+
+      await setDoc(
+        userRef,
+        {
+          practiceSessions: increment(1),
+          lastPracticeDate: new Date(),
+        },
+        { merge: true }
+      );
+
+      console.log("✅ Practice progress saved to Firebase");
+    } catch (error) {
+      console.error("❌ Error saving practice progress:", error);
+    }
+  };
 
    // ===============================
   // SPEECH RECOGNITION REFS
@@ -291,6 +319,11 @@ const [seconds, setSeconds] = useState(0);
   // ===============================
 
   const stopListening = () => {
+  // Save this practice session to Firebase
+  if (shouldListenRef.current) {
+    savePracticeProgress();
+  }
+
     shouldListenRef.current = false;
     processingRef.current = false;
     speakingRef.current = false;

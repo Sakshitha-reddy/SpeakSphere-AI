@@ -21,6 +21,7 @@ export default function Dashboard() {
   lessonsCompleted: 0,
   vocabulary: 0,
   practiceSessions: 0,
+  practiceMinutes: 0,
 });
   const weeklyGoal = 7;
 
@@ -75,6 +76,11 @@ const progressPercentage = Math.min(
   title: "Practice Sessions",
   value: userData.practiceSessions,
   subtitle: "AI Sessions",
+},
+{
+  title: "Practice Time",
+  value: `${userData.practiceMinutes} min`,
+  subtitle: "Total Time",
 },
   ];
 

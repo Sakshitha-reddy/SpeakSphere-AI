@@ -22,31 +22,32 @@ const [lastUserMessage, setLastUserMessage] = useState("");
 const [aiReply, setAiReply] = useState("");
 const [seconds, setSeconds] = useState(0);
   // ===============================
-  // SAVE PRACTICE PROGRESS
-  // ===============================
+// SAVE PRACTICE PROGRESS
+// ===============================
 
-  const savePracticeProgress = async () => {
-    const user = auth.currentUser;
+const savePracticeProgress = async () => {
+  const user = auth.currentUser;
 
-    if (!user) return;
+  if (!user) return;
 
-    try {
-      const userRef = doc(db, "users", user.uid);
+  try {
+    const userRef = doc(db, "users", user.uid);
 
-      await setDoc(
-        userRef,
-        {
-          practiceSessions: increment(1),
-          lastPracticeDate: new Date(),
-        },
-        { merge: true }
-      );
+    await setDoc(
+      userRef,
+      {
+        practiceSessions: increment(1),
+        practiceMinutes: increment(Math.ceil(seconds / 60)),
+        lastPracticeDate: new Date(),
+      },
+      { merge: true }
+    );
 
-      console.log("✅ Practice progress saved to Firebase");
-    } catch (error) {
-      console.error("❌ Error saving practice progress:", error);
-    }
-  };
+    console.log("✅ Practice progress saved to Firebase");
+  } catch (error) {
+    console.error("❌ Error saving practice progress:", error);
+  }
+};
 
    // ===============================
   // SPEECH RECOGNITION REFS

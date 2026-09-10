@@ -16,11 +16,12 @@ export default function Dashboard() {
   const navigate = useNavigate();
   
   const [userData, setUserData] = useState({
-    streak: 0,
-    fluencyScore: 0,
-    lessonsCompleted: 0,
-    vocabulary: 0,
-  });
+  streak: 0,
+  fluencyScore: 0,
+  lessonsCompleted: 0,
+  vocabulary: 0,
+  practiceSessions: 0,
+});
   const weeklyGoal = 7;
 
 const progressPercentage = Math.min(
@@ -70,6 +71,11 @@ const progressPercentage = Math.min(
       value: userData.vocabulary,
       subtitle: "Words",
     },
+    {
+  title: "Practice Sessions",
+  value: userData.practiceSessions,
+  subtitle: "AI Sessions",
+},
   ];
 
   return (
@@ -143,7 +149,10 @@ const progressPercentage = Math.min(
               pronunciation, grammar and fluency.
             </p>
 
-            <button className="mt-8 flex items-center gap-3 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 px-6 py-4 font-semibold text-white transition hover:scale-105">
+            <button
+  onClick={() => navigate("/practice")}
+  className="mt-8 flex items-center gap-3 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 px-6 py-4 font-semibold text-white transition hover:scale-105"
+>
               Start Practice
               <FaArrowRight />
             </button>

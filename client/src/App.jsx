@@ -12,6 +12,7 @@ import RandomCall from "./pages/RandomCall";
 import DailyChallenge from "./pages/DailyChallenge";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import Leaderboard from "./pages/Leaderboard";
 
 function App() {
   return (
@@ -70,6 +71,14 @@ function App() {
   element={
     <ProtectedRoute>
       <DailyChallenge />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/leaderboard"
+  element={
+    <ProtectedRoute>
+      <Leaderboard />
     </ProtectedRoute>
   }
 />

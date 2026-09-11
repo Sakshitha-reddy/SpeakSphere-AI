@@ -298,7 +298,13 @@ if (auth.currentUser) {
   try {
     const userSnap = await getDoc(userRef);
     const userData = userSnap.exists() ? userSnap.data() : {};
+    const previousTotal = Number(userData.fluencyScoreTotal || 0);
+const previousCount = Number(userData.fluencyScoreCount || 0);
 
+const newTotal = previousTotal + result.score;
+const newCount = previousCount + 1;
+
+const averageScore = Math.round(newTotal / newCount);
     const today = new Date();
     const todayString = today.toISOString().split("T")[0];
 
@@ -339,7 +345,9 @@ if (auth.currentUser) {
     await setDoc(
       userRef,
       {
-        fluencyScore: result.score,
+        fluencyScore: averageScore, 
+        fluencyScoreTotal: newTotal,
+        fluencyScoreCount: newCount,
         streak: currentStreak,
         lastChallengeDate: new Date(),
         lastChallengeWords: result.wordCount,

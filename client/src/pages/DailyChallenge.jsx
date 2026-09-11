@@ -348,6 +348,11 @@ const averageScore = Math.round(newTotal / newCount);
         fluencyScore: averageScore, 
         fluencyScoreTotal: newTotal,
         fluencyScoreCount: newCount,
+       ...(completedToday
+  ? {}
+  : {
+      points: increment(50),
+    }),
         streak: currentStreak,
         lastChallengeDate: new Date(),
         lastChallengeWords: result.wordCount,

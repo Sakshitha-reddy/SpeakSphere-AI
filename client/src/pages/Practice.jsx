@@ -38,6 +38,7 @@ const savePracticeProgress = async () => {
       {
         practiceSessions: increment(1),
         practiceMinutes: increment(Math.ceil(seconds / 60)),
+        points: increment(20),
         lastPracticeDate: new Date(),
       },
       { merge: true }

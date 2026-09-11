@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 
 import { auth, db } from "../firebase/firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, increment } from "firebase/firestore";
 
 export default function Vocabulary() {
   const [search, setSearch] = useState("");
@@ -208,6 +208,7 @@ export default function Vocabulary() {
 
       try {
         const userRef = doc(db, "users", user.uid);
+        
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
@@ -243,23 +244,43 @@ export default function Vocabulary() {
     }
 
     let updatedWords;
+    let earnedPoints = false;
 
-    if (learnedWords.includes(word)) {
-      updatedWords = learnedWords.filter(
-        (item) => item !== word
-      );
-    } else {
-      updatedWords = [...learnedWords, word];
-    }
+   if (learnedWords.includes(word)) {
+  updatedWords = learnedWords.filter(
+    (item) => item !== word
+  );
+} else {
+  updatedWords = [...learnedWords, word];
+
+  
+}
 
     try {
       const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+const userData = userSnap.exists() ? userSnap.data() : {};
+
+const rewardedVocabularyWords =
+  userData.rewardedVocabularyWords || [];
+  if (!rewardedVocabularyWords.includes(word)) {
+  earnedPoints = true;
+}
 
       await setDoc(
         userRef,
         {
           learnedWords: updatedWords,
           vocabulary: updatedWords.length,
+          ...(earnedPoints
+  ? {
+      points: increment(10),
+      rewardedVocabularyWords: [
+        ...rewardedVocabularyWords,
+        word,
+      ],
+    }
+  : {}),
         },
         {
           merge: true,

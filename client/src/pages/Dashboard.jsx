@@ -212,6 +212,86 @@ const progressPercentage = Math.min(
             </div>
           </div>
         </div>
+        {/* Recent Activity */}
+<div className="mt-12 rounded-3xl bg-white p-8 shadow-lg">
+  <h2 className="text-3xl font-bold text-slate-900">
+    Recent Activity
+  </h2>
+
+  <p className="mt-2 text-slate-500">
+    Keep track of your English learning journey.
+  </p>
+
+  <div className="mt-8 space-y-4">
+
+    {/* AI Practice */}
+    <div className="flex items-center justify-between rounded-2xl bg-violet-50 p-5">
+      <div className="flex items-center gap-4">
+        <div className="rounded-xl bg-violet-100 p-3 text-xl text-violet-700">
+          🎤
+        </div>
+
+        <div>
+          <h3 className="font-bold text-slate-900">
+            AI Speaking Practice
+          </h3>
+          <p className="text-sm text-slate-500">
+            {userData.practiceSessions} sessions completed
+          </p>
+        </div>
+      </div>
+
+      <span className="font-bold text-violet-600">
+        {userData.practiceMinutes} min
+      </span>
+    </div>
+
+    {/* Vocabulary */}
+    <div className="flex items-center justify-between rounded-2xl bg-violet-50 p-5">
+      <div className="flex items-center gap-4">
+        <div className="rounded-xl bg-violet-100 p-3 text-xl text-violet-700">
+          📚
+        </div>
+
+        <div>
+          <h3 className="font-bold text-slate-900">
+            Vocabulary Learning
+          </h3>
+          <p className="text-sm text-slate-500">
+            Words learned
+          </p>
+        </div>
+      </div>
+
+      <span className="font-bold text-violet-600">
+        {userData.vocabulary}
+      </span>
+    </div>
+
+    {/* Daily Challenge */}
+    <div className="flex items-center justify-between rounded-2xl bg-violet-50 p-5">
+      <div className="flex items-center gap-4">
+        <div className="rounded-xl bg-violet-100 p-3 text-xl text-violet-700">
+          🎯
+        </div>
+
+        <div>
+          <h3 className="font-bold text-slate-900">
+            Daily Challenge
+          </h3>
+          <p className="text-sm text-slate-500">
+            Keep your speaking streak going
+          </p>
+        </div>
+      </div>
+
+      <span className="font-bold text-violet-600">
+        🔥 {userData.streak} day
+      </span>
+    </div>
+
+  </div>
+</div>
 
       {/* Quick Actions */}
 <div className="mt-12 rounded-3xl bg-white p-8 shadow-lg">

@@ -13,6 +13,7 @@ import DailyChallenge from "./pages/DailyChallenge";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Leaderboard from "./pages/Leaderboard";
+import Achievements from "./pages/Achievements";
 
 function App() {
   return (
@@ -79,6 +80,14 @@ function App() {
   element={
     <ProtectedRoute>
       <Leaderboard />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/achievements"
+  element={
+    <ProtectedRoute>
+      <Achievements />
     </ProtectedRoute>
   }
 />

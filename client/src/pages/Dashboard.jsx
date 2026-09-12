@@ -11,6 +11,7 @@ import {
   FaRandom,
  FaBullseye,
 FaTrophy,
+FaMedal,
 } from "react-icons/fa";
 
 export default function Dashboard() {
@@ -421,6 +422,26 @@ const progressPercentage = Math.min(
 
     <p className="text-sm text-slate-500">
       See your ranking
+    </p>
+  </div>
+</button>
+
+{/* ACHIEVEMENTS */}
+<button
+  onClick={() => navigate("/achievements")}
+  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+>
+  <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
+    <FaMedal />
+  </div>
+
+  <div>
+    <h3 className="font-bold text-slate-900">
+      Achievements
+    </h3>
+
+    <p className="text-sm text-slate-500">
+      View your badges
     </p>
   </div>
 </button>

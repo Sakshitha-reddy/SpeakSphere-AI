@@ -126,7 +126,12 @@ const progressPercentage = Math.min(
           English Learner
         </p>
       </div>
-
+      <button
+  onClick={() => navigate("/profile")}
+  className="w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-violet-50"
+>
+  👤 Profile
+</button> 
       <button
         onClick={() => navigate("/achievements")}
         className="mt-2 w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-violet-50"
@@ -468,7 +473,12 @@ const progressPercentage = Math.min(
     </p>
   </div>
 </button>
-
+<button
+  onClick={() => navigate("/profile")}
+  className="w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-violet-50"
+>
+  👤 Profile
+</button>
 {/* ACHIEVEMENTS */}
 <button
   onClick={() => navigate("/achievements")}
@@ -488,6 +498,7 @@ const progressPercentage = Math.min(
     </p>
   </div>
 </button>
+
   </div>
 </div>
 </main>

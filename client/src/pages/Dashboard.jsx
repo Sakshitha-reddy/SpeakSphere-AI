@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { auth, db } from "../firebase/firebase";
+import { signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
@@ -85,6 +86,14 @@ const progressPercentage = Math.min(
   subtitle: "Total Time",
 },
   ];
+  const handleLogout = async () => {
+  try {
+    await signOut(auth);
+    navigate("/login");
+  } catch (error) {
+    console.error("❌ Logout failed:", error);
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#f6f0ff]">
@@ -96,10 +105,17 @@ const progressPercentage = Math.min(
           </h1>
 
           <div className="flex items-center gap-4">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-violet-100 font-bold text-violet-700">
-              S
-            </div>
-          </div>
+  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-violet-100 font-bold text-violet-700">
+    S
+  </div>
+
+  <button
+    onClick={handleLogout}
+    className="rounded-xl border border-red-200 px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50"
+  >
+    Logout
+  </button>
+</div>
         </div>
       </header>
 

@@ -17,8 +17,10 @@ FaMedal,
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [profileOpen, setProfileOpen] = useState(false);
   
   const [userData, setUserData] = useState({
+    
   streak: 0,
   fluencyScore: 0,
   lessonsCompleted: 0,
@@ -26,6 +28,7 @@ export default function Dashboard() {
   practiceSessions: 0,
   practiceMinutes: 0,
 });
+
   const weeklyGoal = 7;
 
 const progressPercentage = Math.min(
@@ -104,17 +107,41 @@ const progressPercentage = Math.min(
             SpeakSphere
           </h1>
 
-          <div className="flex items-center gap-4">
-  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-violet-100 font-bold text-violet-700">
-    S
-  </div>
-
+          <div className="relative">
   <button
-    onClick={handleLogout}
-    className="rounded-xl border border-red-200 px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50"
+    onClick={() => setProfileOpen(!profileOpen)}
+    className="flex h-11 w-11 items-center justify-center rounded-full bg-violet-100 font-bold text-violet-700"
   >
-    Logout
+    S
   </button>
+
+  {profileOpen && (
+    <div className="absolute right-0 top-14 z-50 w-56 rounded-2xl border border-violet-100 bg-white p-3 shadow-xl">
+      <div className="border-b border-slate-100 px-3 py-3">
+        <p className="font-semibold text-slate-900">
+          Sakshitha
+        </p>
+
+        <p className="text-sm text-slate-500">
+          English Learner
+        </p>
+      </div>
+
+      <button
+        onClick={() => navigate("/achievements")}
+        className="mt-2 w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-violet-50"
+      >
+        🏅 Achievements
+      </button>
+
+      <button
+        onClick={handleLogout}
+        className="mt-1 w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-red-600 hover:bg-red-50"
+      >
+        🚪 Logout
+      </button>
+    </div>
+  )}
 </div>
         </div>
       </header>

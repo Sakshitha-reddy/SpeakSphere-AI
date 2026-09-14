@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
 function Profile() {
+    const navigate = useNavigate();
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -41,7 +43,12 @@ function Profile() {
   return (
     <div className="min-h-screen bg-[#f6f0ff] px-6 py-12">
       <div className="mx-auto max-w-5xl">
-
+    <button
+  onClick={() => navigate("/dashboard")}
+  className="mb-8 rounded-xl bg-violet-600 px-5 py-3 font-semibold text-white transition hover:bg-violet-700"
+>
+  ← Back to Dashboard
+</button>
         {/* Header */}
         <div className="text-center">
           <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-violet-100 text-4xl font-bold text-violet-700">

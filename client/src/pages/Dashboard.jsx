@@ -13,6 +13,7 @@ import {
  FaBullseye,
 FaTrophy,
 FaMedal,
+ FaUser,
 } from "react-icons/fa";
 
 export default function Dashboard() {
@@ -473,11 +474,24 @@ const progressPercentage = Math.min(
     </p>
   </div>
 </button>
+{/* PROFILE */}
 <button
   onClick={() => navigate("/profile")}
-  className="w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-violet-50"
+  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
 >
-  👤 Profile
+ <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
+  <FaUser />
+</div>
+
+  <div>
+    <h3 className="font-bold text-slate-900">
+      Profile
+    </h3>
+
+    <p className="text-sm text-slate-500">
+      View your account
+    </p>
+  </div>
 </button>
 {/* ACHIEVEMENTS */}
 <button

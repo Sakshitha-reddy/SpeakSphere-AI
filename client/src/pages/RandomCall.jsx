@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-
+import { Link } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 import {
   addDoc,
   collection,
@@ -1438,6 +1439,13 @@ console.log(
       <div className="max-w-3xl mx-auto">
 
         {/* HEADER */}
+        <Link
+  to="/dashboard"
+  className="mb-8 inline-flex items-center gap-2 rounded-xl bg-violet-100 px-4 py-3 text-violet-700 transition hover:bg-violet-200"
+>
+  <FaArrowLeft />
+  Back to Dashboard
+</Link>
 
         <div className="text-center mb-10">
 

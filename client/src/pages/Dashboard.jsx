@@ -110,17 +110,17 @@ const progressPercentage = Math.min(
 
           <div className="relative">
   <button
-    onClick={() => setProfileOpen(!profileOpen)}
-    className="flex h-11 w-11 items-center justify-center rounded-full bg-violet-100 font-bold text-violet-700"
-  >
-    S
-  </button>
+  onClick={() => setProfileOpen(!profileOpen)}
+  className="flex h-11 w-11 items-center justify-center rounded-full bg-violet-100 font-bold text-violet-700"
+>
+  {userData.name ? userData.name.charAt(0).toUpperCase() : "S"}
+</button>
 
   {profileOpen && (
     <div className="absolute right-0 top-14 z-50 w-56 rounded-2xl border border-violet-100 bg-white p-3 shadow-xl">
       <div className="border-b border-slate-100 px-3 py-3">
         <p className="font-semibold text-slate-900">
-          Sakshitha
+          {userData.name || "Sakshitha"}
         </p>
 
         <p className="text-sm text-slate-500">
@@ -138,6 +138,13 @@ const progressPercentage = Math.min(
         className="mt-2 w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-violet-50"
       >
         🏅 Achievements
+      </button>
+
+            <button
+        onClick={() => navigate("/settings")}
+        className="mt-2 w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-violet-50"
+      >
+        ⚙️ Settings
       </button>
 
       <button
@@ -512,6 +519,10 @@ const progressPercentage = Math.min(
     </p>
   </div>
 </button>
+
+
+
+
 
   </div>
 </div>

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { auth, db } from "../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { Link } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa"; 
 
 function Achievements() {
   const [userData, setUserData] = useState({
@@ -39,9 +41,15 @@ function Achievements() {
   return (
     <div className="min-h-screen bg-[#f6f0ff] px-6 py-12">
       <div className="mx-auto max-w-6xl">
+  <Link
+    to="/dashboard"
+    className="mb-8 inline-flex items-center gap-2 rounded-xl bg-violet-100 px-4 py-3 text-violet-700 transition hover:bg-violet-200"
+  >
+    <FaArrowLeft />
+    Back to Dashboard
+  </Link>
 
-        {/* Header */}
-        <div className="text-center">
+  <div className="text-center">
           <h1 className="text-4xl font-bold text-slate-900">
             🏅 Achievements
           </h1>

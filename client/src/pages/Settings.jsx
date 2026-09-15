@@ -3,37 +3,44 @@ import { Link } from "react-router-dom";
 import { FaArrowLeft, FaUser, FaBell, FaMoon } from "react-icons/fa";
 import { auth, db } from "../firebase/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 function Settings() {
-      const [userData, setUserData] = useState({
-    name: "",
-    email: "",
-  });
+    
+     const [userData, setUserData] = useState({
+  name: "",
+  email: "",
+  notifications: null,
+});
+const [notificationLoading, setNotificationLoading] = useState(false);
+const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadUserData = async () => {
-      const user = auth.currentUser;
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    if (!user) return;
 
-      if (!user) return;
+    try {
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
 
-      try {
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+  const data = userSnap.data();
 
-        if (userSnap.exists()) {
-          const data = userSnap.data();
+  setUserData({
+    name: data.name || user.displayName || "Sakshitha",
+    email: user.email || "",
+    notifications: data.notifications ?? true,
+  });
+}
 
-          setUserData({
-            name: data.name || user.displayName || "Sakshitha",
-            email: user.email || "",
-          });
-        }
-      } catch (error) {
-        console.error("❌ Error loading settings:", error);
-      }
-    };
+setLoading(false);
+  } catch (error) {
+  console.error("❌ Error loading settings:", error);
+  setLoading(false);
+}
+  });
 
-    loadUserData();
-  }, []);
+  return () => unsubscribe();
+}, []);
     const handleSaveName = async () => {
     const user = auth.currentUser;
 
@@ -52,6 +59,33 @@ function Settings() {
       alert("Failed to update name.");
     }
   };
+const handleNotificationToggle = async () => {
+  const user = auth.currentUser;
+
+  if (!user) return;
+
+  const newValue = !userData.notifications;
+
+  try {
+    setNotificationLoading(true);
+
+    const userRef = doc(db, "users", user.uid);
+
+    await updateDoc(userRef, {
+      notifications: newValue,
+    });
+
+    setUserData({
+      ...userData,
+      notifications: newValue,
+    });
+  } catch (error) {
+    console.error("❌ Error updating notifications:", error);
+    alert("Failed to update notifications.");
+  } finally {
+    setNotificationLoading(false);
+  }
+};
   return (
     <div className="min-h-screen bg-[#f6f0ff] px-6 py-12">
       <div className="mx-auto max-w-4xl">
@@ -153,11 +187,22 @@ function Settings() {
       </p>
     </div>
 
-    <button
-      className="rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-700"
-    >
-      On
-    </button>
+ <button
+  onClick={loading || notificationLoading ? undefined : handleNotificationToggle}
+  className={`rounded-full px-4 py-2 text-sm font-semibold text-white transition ${
+    loading || notificationLoading
+      ? "bg-slate-300 cursor-not-allowed"
+      : userData.notifications
+        ? "bg-violet-600 hover:bg-violet-700"
+        : "bg-slate-400 hover:bg-slate-500"
+  }`}
+>
+  {loading || notificationLoading
+    ? "Loading..."
+    : userData.notifications
+      ? "On"
+      : "Off"}
+</button>
   </div>
 </div>
 

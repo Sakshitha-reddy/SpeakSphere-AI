@@ -100,11 +100,11 @@ const progressPercentage = Math.min(
 };
 
   return (
-    <div className="min-h-screen bg-[#f6f0ff]">
+   <div className="dashboard-page min-h-screen bg-[#f6f0ff] dark:bg-slate-950">
       {/* Header */}
-      <header className="border-b border-purple-100 bg-white shadow-sm">
+    <header className="dashboard-header border-b border-purple-100 bg-white shadow-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
-          <h1 className="text-3xl font-bold text-slate-900">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
             SpeakSphere
           </h1>
 
@@ -117,7 +117,7 @@ const progressPercentage = Math.min(
 </button>
 
   {profileOpen && (
-    <div className="absolute right-0 top-14 z-50 w-56 rounded-2xl border border-violet-100 bg-white p-3 shadow-xl">
+    <div className="dashboard-profile-menu absolute right-0 top-14 z-50 w-56 rounded-2xl border border-violet-100 bg-white p-3 shadow-xl">
       <div className="border-b border-slate-100 px-3 py-3">
         <p className="font-semibold text-slate-900">
           {userData.name || "Sakshitha"}
@@ -160,20 +160,20 @@ const progressPercentage = Math.min(
       </header>
 
       <main className="mx-auto max-w-7xl px-8 py-10">
-        <h2 className="text-4xl font-bold text-slate-900">
-          Welcome Back 👋
-        </h2>
+     <h2 className="dashboard-welcome-title text-4xl font-bold text-slate-900">
+  Welcome Back 👋
+</h2>
 
-        <p className="mt-2 text-lg text-slate-600">
-          Continue improving your English today.
-        </p>
+       <p className="dashboard-welcome-text mt-2 text-lg text-slate-600">
+  Continue improving your English today.
+</p>
 
         {/* Stats */}
         <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {stats.map((stat) => (
             <div
               key={stat.title}
-              className="rounded-3xl bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+              className="dashboard-stat-card rounded-3xl bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
             >
               <p className="text-slate-500">{stat.title}</p>
 
@@ -191,7 +191,7 @@ const progressPercentage = Math.min(
         {/* Dashboard Content */}
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
           {/* AI Coach */}
-          <div className="rounded-3xl bg-white p-8 shadow-lg">
+          <div className="dashboard-content-card rounded-3xl bg-white p-8 shadow-lg">
             <div className="flex items-center gap-4">
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-500 text-2xl text-white">
                 <FaMicrophone />
@@ -222,8 +222,8 @@ const progressPercentage = Math.min(
             </button>
           </div>
 
-          {/* Weekly Progress */}
-          <div className="rounded-3xl bg-white p-8 shadow-lg">
+         {/* Weekly Progress */}
+<div className="dashboard-content-card rounded-3xl bg-white p-8 shadow-lg">
             <h3 className="text-2xl font-bold text-slate-900">
               Weekly Progress
             </h3>
@@ -270,8 +270,8 @@ const progressPercentage = Math.min(
             </div>
           </div>
         </div>
-        {/* Recent Activity */}
-<div className="mt-12 rounded-3xl bg-white p-8 shadow-lg">
+       {/* Recent Activity */}
+<div className="dashboard-content-card mt-12 rounded-3xl bg-white p-8 shadow-lg">
   <h2 className="text-3xl font-bold text-slate-900">
     Recent Activity
   </h2>
@@ -283,7 +283,7 @@ const progressPercentage = Math.min(
   <div className="mt-8 space-y-4">
 
     {/* AI Practice */}
-    <div className="flex items-center justify-between rounded-2xl bg-violet-50 p-5">
+   <div className="dashboard-activity-card flex items-center justify-between rounded-2xl bg-violet-50 p-5">
       <div className="flex items-center gap-4">
         <div className="rounded-xl bg-violet-100 p-3 text-xl text-violet-700">
           🎤
@@ -305,7 +305,7 @@ const progressPercentage = Math.min(
     </div>
 
     {/* Vocabulary */}
-    <div className="flex items-center justify-between rounded-2xl bg-violet-50 p-5">
+   <div className="dashboard-activity-card flex items-center justify-between rounded-2xl bg-violet-50 p-5">
       <div className="flex items-center gap-4">
         <div className="rounded-xl bg-violet-100 p-3 text-xl text-violet-700">
           📚
@@ -327,7 +327,7 @@ const progressPercentage = Math.min(
     </div>
 
     {/* Daily Challenge */}
-    <div className="flex items-center justify-between rounded-2xl bg-violet-50 p-5">
+   <div className="dashboard-activity-card flex items-center justify-between rounded-2xl bg-violet-50 p-5">
       <div className="flex items-center gap-4">
         <div className="rounded-xl bg-violet-100 p-3 text-xl text-violet-700">
           🎯
@@ -352,7 +352,7 @@ const progressPercentage = Math.min(
 </div>
 
       {/* Quick Actions */}
-<div className="mt-12 rounded-3xl bg-white p-8 shadow-lg">
+<div className="dashboard-content-card mt-12 rounded-3xl bg-white p-8 shadow-lg">
   <h2 className="text-3xl font-bold text-slate-900">
     Quick Actions
   </h2>
@@ -366,7 +366,7 @@ const progressPercentage = Math.min(
     {/* START SPEAKING */}
     <button
       onClick={() => navigate("/practice")}
-      className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+      className="dashboard-action-card group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
     >
       <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
         <FaMicrophone />
@@ -386,7 +386,7 @@ const progressPercentage = Math.min(
     {/* VOICE ROOMS */}
     <button
       onClick={() => navigate("/rooms")}
-      className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+      className="dashboard-action-card group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
     >
       <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
         <FaUsers />
@@ -406,7 +406,7 @@ const progressPercentage = Math.min(
     {/* RANDOM VOICE CALL */}
     <button
       onClick={() => navigate("/random-call")}
-      className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+     className="dashboard-action-card group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
     >
       <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
         <FaRandom />
@@ -426,7 +426,7 @@ const progressPercentage = Math.min(
     {/* VOCABULARY */}
     <button
       onClick={() => navigate("/vocabulary")}
-      className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+      className="dashboard-action-card group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
     >
       <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
         <FaBookOpen />
@@ -446,7 +446,7 @@ const progressPercentage = Math.min(
     {/* DAILY CHALLENGE */}
     <button
       onClick={() => navigate("/daily-challenge")}
-      className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+     className="dashboard-action-card group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
     >
       <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
         <FaBullseye />
@@ -465,7 +465,7 @@ const progressPercentage = Math.min(
 {/* LEADERBOARD */}
 <button
   onClick={() => navigate("/leaderboard")}
-  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+ className="dashboard-action-card group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
 >
   <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
     <FaTrophy />
@@ -484,7 +484,7 @@ const progressPercentage = Math.min(
 {/* PROFILE */}
 <button
   onClick={() => navigate("/profile")}
-  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+  className="dashboard-action-card group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
 >
  <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
   <FaUser />
@@ -503,7 +503,7 @@ const progressPercentage = Math.min(
 {/* ACHIEVEMENTS */}
 <button
   onClick={() => navigate("/achievements")}
-  className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
+  className="dashboard-action-card group flex cursor-pointer items-center gap-4 rounded-2xl border border-violet-100 bg-white p-6 text-left transition-all duration-300 hover:-translate-y-2 hover:border-violet-500 hover:shadow-xl"
 >
   <div className="rounded-xl bg-violet-100 p-4 text-2xl text-violet-700 transition-transform duration-300 group-hover:scale-110">
     <FaMedal />

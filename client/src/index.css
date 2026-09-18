@@ -11,8 +11,92 @@ body {
   font-family: "Poppins", sans-serif;
   background: #f8f5ff;
   color: #1f1b2d;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Global Dark Mode */
+html.dark body {
+  background: #020617;
+  color: #ffffff;
 }
 
 * {
   box-sizing: border-box;
+}
+html.dark .dashboard-page {
+  background: #020617 !important;
+}
+html.dark .dashboard-header {
+  background: #0f172a !important;
+  border-color: #1e293b !important;
+}
+html.dark .dashboard-welcome-title {
+  color: #ffffff !important;
+}
+
+html.dark .dashboard-welcome-text {
+  color: #cbd5e1 !important;
+}
+html.dark .dashboard-stat-card {
+  background: #1e293b !important;
+}
+html.dark .dashboard-content-card {
+  background: #1e293b !important;
+}
+html.dark .dashboard-action-card {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+html.dark .dashboard-action-card h3 {
+  color: #ffffff !important;
+}
+
+html.dark .dashboard-action-card p {
+  color: #cbd5e1 !important;
+}
+html.dark .dashboard-activity-card {
+  background: #0f172a !important;
+}
+html.dark .dashboard-activity-card h3 {
+  color: #ffffff !important;
+}
+
+html.dark .dashboard-activity-card p {
+  color: #cbd5e1 !important;
+}
+html.dark .dashboard-profile-menu {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+html.dark .dashboard-profile-menu p {
+  color: #ffffff !important;
+}
+
+html.dark .dashboard-profile-menu button {
+  color: #e2e8f0 !important;
+}
+
+html.dark .dashboard-profile-menu button:hover {
+  background: #334155 !important;
+}
+/* Dashboard dark mode text */
+html.dark .dashboard-page .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .dashboard-page .text-slate-800 {
+  color: #f8fafc !important;
+}
+
+html.dark .dashboard-page .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+html.dark .dashboard-page .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .dashboard-page .text-slate-500 {
+  color: #94a3b8 !important;
 }

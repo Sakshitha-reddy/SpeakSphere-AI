@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 import { Link } from "react-router-dom";
 import { FaArrowLeft, FaUser, FaBell, FaMoon } from "react-icons/fa";
 import { auth, db } from "../firebase/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 function Settings() {
-    
+    const { darkMode, setDarkMode } = useTheme();
      const [userData, setUserData] = useState({
   name: "",
   email: "",
   notifications: null,
 });
 const [notificationLoading, setNotificationLoading] = useState(false);
-const [darkMode, setDarkMode] = useState(false);
+
 const [loading, setLoading] = useState(true);
 
   useEffect(() => {

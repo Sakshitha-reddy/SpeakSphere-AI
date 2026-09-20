@@ -100,3 +100,83 @@ html.dark .dashboard-page .text-slate-600 {
 html.dark .dashboard-page .text-slate-500 {
   color: #94a3b8 !important;
 }
+
+html.dark .practice-page {
+  background: #020617 !important;
+}
+
+html.dark .practice-header {
+  background: #0f172a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .practice-content-card {
+  background: #1e293b !important;
+}
+
+html.dark .practice-ai-bubble {
+  background: #312e81 !important;
+}
+
+html.dark .practice-ai-bubble .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+html.dark .practice-analysis-card {
+  background: #1e293b !important;
+}
+html.dark .practice-analysis-box {
+  background: #0f172a !important;
+}
+html.dark .practice-analysis-box .text-slate-500 {
+  color: #94a3b8 !important;
+}
+html.dark .practice-analysis-card .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .practice-analysis-card .text-slate-800 {
+  color: #f8fafc !important;
+}
+
+html.dark .practice-analysis-card .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+html.dark .practice-end-button {
+  border-color: #f87171 !important;
+  color: #fca5a5 !important;
+}
+
+html.dark .practice-end-button:hover {
+  background: #450a0a !important;
+}
+/* Practice page dark mode text */
+html.dark .practice-content-card .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .practice-content-card .text-slate-800 {
+  color: #f8fafc !important;
+}
+
+html.dark .practice-content-card .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+html.dark .practice-content-card .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+html.dark .practice-analysis-card .text-slate-600 {
+  color: #94a3b8 !important;
+}
+html.dark .practice-header .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .practice-header .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+html.dark .practice-header .text-slate-900 {
+  color: #ffffff !important;
+}

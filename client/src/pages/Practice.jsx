@@ -34,7 +34,7 @@ const savePracticeProgress = async () => {
     const userRef = doc(db, "users", user.uid);
 
     await setDoc(
-      userRef,
+      userRef,          
       {
         practiceSessions: increment(1),
         practiceMinutes: increment(Math.ceil(seconds / 60)),
@@ -348,11 +348,11 @@ const savePracticeProgress = async () => {
   
 
   return (
-    <div className="min-h-screen bg-[#f6f0ff]">
+    <div className="practice-page min-h-screen bg-[#f6f0ff]">
 
       {/* Header */}
 
-      <header className="bg-white border-b border-violet-100 shadow-sm">
+      <header className="practice-header bg-white border-b border-violet-100 shadow-sm">
 
         <div className="max-w-7xl mx-auto flex items-center justify-between px-8 py-5">
 
@@ -399,7 +399,7 @@ const savePracticeProgress = async () => {
 
           <div className="lg:col-span-2">
 
-            <div className="rounded-3xl bg-white shadow-lg p-8">
+           <div className="practice-content-card rounded-3xl bg-white shadow-lg p-8">
 
               <h2 className="text-3xl font-bold text-slate-900">
                 Conversation
@@ -417,8 +417,7 @@ const savePracticeProgress = async () => {
 
                 <div className="flex">
 
-                  <div className="max-w-lg rounded-3xl rounded-tl-md bg-violet-100 p-5">
-
+                  <div className="practice-ai-bubble max-w-lg rounded-3xl rounded-tl-md bg-violet-100 p-5">
                     <p className="font-bold text-violet-700">
                       🤖 AI Coach
                     </p>
@@ -459,7 +458,7 @@ const savePracticeProgress = async () => {
 
                 <div className="flex">
 
-                  <div className="max-w-lg rounded-3xl rounded-tl-md bg-violet-100 p-5">
+                 <div className="practice-ai-bubble max-w-lg rounded-3xl rounded-tl-md bg-violet-100 p-5">
 
                     <p className="font-bold text-violet-700">
                       🤖 AI Feedback
@@ -488,9 +487,9 @@ const savePracticeProgress = async () => {
   {isListening ? "Listening..." : "Start Practice"}
 </button>
 
-              <button
+             <button
   onClick={stopListening}
-  className="flex items-center gap-3 border border-red-300 text-red-600 px-8 py-4 rounded-2xl font-semibold hover:bg-red-50 transition"
+  className="practice-end-button flex items-center gap-3 border border-red-300 text-red-600 px-8 py-4 rounded-2xl font-semibold hover:bg-red-50 transition"
 >
   <FaStop />
 
@@ -507,7 +506,7 @@ const savePracticeProgress = async () => {
 
           <div>
 
-            <div className="rounded-3xl bg-white shadow-lg p-8 sticky top-8">
+            <div className="practice-analysis-card rounded-3xl bg-white shadow-lg p-8 sticky top-8">
 
               <div className="flex items-center gap-3">
 
@@ -533,7 +532,7 @@ const savePracticeProgress = async () => {
 
               <div className="mt-8 space-y-5">
 
-                <div className="rounded-2xl bg-violet-50 p-5">
+               <div className="practice-analysis-box rounded-2xl bg-violet-50 p-5">
 
                   <p className="text-slate-500">
                     Status
@@ -551,7 +550,7 @@ const savePracticeProgress = async () => {
 
                 </div>
 
-                <div className="rounded-2xl bg-violet-50 p-5">
+                <div className="practice-analysis-box rounded-2xl bg-violet-50 p-5">
 
                   <p className="text-slate-500">
                     Duration
@@ -565,7 +564,7 @@ const savePracticeProgress = async () => {
 
                 </div>
 
-                <div className="rounded-2xl bg-violet-50 p-5">
+               <div className="practice-analysis-box rounded-2xl bg-violet-50 p-5">
 
                   <p className="text-slate-500">
                     AI Status

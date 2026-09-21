@@ -445,7 +445,7 @@ setConnectionRole("");
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f6f0ff] px-6 py-12">
+    <div className="voice-rooms-page min-h-screen bg-[#f6f0ff] px-6 py-12">
       <div className="max-w-5xl mx-auto">
 
         {/* Header */}
@@ -462,16 +462,15 @@ setConnectionRole("");
             🗣️ Live Voice Rooms
           </h1>
 
-          <p className="mt-3 text-slate-600 text-lg">
-            Practice English with other learners through live
-            voice conversations.
-          </p>
+          <p className="voice-rooms-subtitle mt-3 text-slate-600 text-lg">
+  Practice English with other learners through live
+  voice conversations.
+</p>
 
         </div>
 
         {/* Status */}
-        <div className="bg-white rounded-2xl shadow-md p-5 mb-8 text-center">
-
+       <div className="voice-status-card bg-white rounded-2xl shadow-md p-5 mb-8 text-center">
   <p className="text-sm text-slate-500">
     Connection Status
   </p>
@@ -492,7 +491,7 @@ setConnectionRole("");
         <div className="grid md:grid-cols-2 gap-8">
 
           {/* Create Room */}
-          <div className="bg-white rounded-3xl shadow-lg p-8">
+         <div className="voice-room-card bg-white rounded-3xl shadow-lg p-8">
 
             <h2 className="text-2xl font-bold text-slate-900">
               Create a Room
@@ -522,7 +521,7 @@ setConnectionRole("");
           </div>
 
           {/* Join Room */}
-          <div className="bg-white rounded-3xl shadow-lg p-8">
+         <div className="voice-room-card bg-white rounded-3xl shadow-lg p-8">
 
             <h2 className="text-2xl font-bold text-slate-900">
               Join a Room
@@ -538,7 +537,7 @@ setConnectionRole("");
               value={roomId}
               onChange={(e) => setRoomId(e.target.value)}
               disabled={isInRoom}
-              className="w-full mt-6 px-4 py-3 rounded-xl border border-violet-200 outline-none focus:ring-2 focus:ring-violet-500 disabled:bg-slate-100"
+              className="voice-room-input w-full mt-6 px-4 py-3 rounded-xl border border-violet-200 outline-none focus:ring-2 focus:ring-violet-500 disabled:bg-slate-100"
             />
 
             <button
@@ -555,7 +554,7 @@ setConnectionRole("");
 
         {/* Room Information */}
         {roomId && (
-          <div className="bg-white rounded-3xl shadow-lg p-8 mt-8 text-center">
+         <div className="voice-room-info-card bg-white rounded-3xl shadow-lg p-8 mt-8 text-center">
 
             <h2 className="text-xl font-bold text-slate-900">
               Your Room ID
@@ -574,7 +573,7 @@ setConnectionRole("");
 
         {/* Voice Controls */}
         {isInRoom && (
-          <div className="bg-white rounded-3xl shadow-lg p-8 mt-8">
+          <div className="voice-controls-card bg-white rounded-3xl shadow-lg p-8 mt-8">
 
             <h2 className="text-2xl font-bold text-center text-slate-900">
               🎙️ Voice Call

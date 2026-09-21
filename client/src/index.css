@@ -252,3 +252,82 @@ html.dark .vocabulary-empty-card .text-slate-900 {
 html.dark .vocabulary-empty-card .text-slate-500 {
   color: #cbd5e1 !important;
 }
+html.dark .voice-rooms-page {
+  background: #020617 !important;
+}
+html.dark .voice-status-card {
+  background: #1e293b !important;
+}
+html.dark .voice-room-card {
+  background: #1e293b !important;
+}
+/* Voice Rooms dark mode text */
+html.dark .voice-room-card .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .voice-room-card .text-slate-800 {
+  color: #f8fafc !important;
+}
+
+html.dark .voice-room-card .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+html.dark .voice-room-card .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .voice-room-card .text-slate-500 {
+  color: #94a3b8 !important;
+}
+/* Voice Rooms inputs - dark mode */
+html.dark .voice-room-input {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+html.dark .voice-room-input::placeholder {
+  color: #94a3b8 !important;
+}
+
+html.dark .voice-room-input:disabled {
+  background: #0f172a !important;
+  color: #64748b !important;
+}
+/* Voice Rooms status card - dark mode */
+html.dark .voice-status-card .text-slate-500 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .voice-status-card .text-slate-800 {
+  color: #f8fafc !important;
+}
+/* Voice Rooms - Room ID card */
+html.dark .voice-room-info-card {
+  background: #1e293b !important;
+}
+
+html.dark .voice-room-info-card .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .voice-room-info-card .text-slate-500 {
+  color: #cbd5e1 !important;
+}
+/* Voice Controls dark mode */
+html.dark .voice-controls-card {
+  background: #1e293b !important;
+}
+
+html.dark .voice-controls-card .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .voice-controls-card .text-slate-500 {
+  color: #cbd5e1 !important;
+}
+html.dark .voice-rooms-subtitle {
+  color: #cbd5e1 !important;
+}

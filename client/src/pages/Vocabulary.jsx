@@ -350,11 +350,11 @@ const rewardedVocabularyWords =
   // =====================================
 
   return (
-    <div className="min-h-screen bg-[#f6f0ff]">
+    <div className="vocabulary-page min-h-screen bg-[#f6f0ff]">
 
       {/* HEADER */}
 
-      <header className="border-b border-violet-100 bg-white shadow-sm">
+     <header className="vocabulary-header border-b border-violet-100 bg-white shadow-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
 
           <div className="flex items-center gap-5">
@@ -407,7 +407,7 @@ const rewardedVocabularyWords =
 
         {/* PROGRESS */}
 
-        <div className="mt-8 rounded-3xl bg-white p-6 shadow-lg">
+        <div className="vocabulary-progress-card mt-8 rounded-3xl bg-white p-6 shadow-lg">
 
           <div className="flex items-center justify-between">
 
@@ -461,7 +461,7 @@ const rewardedVocabularyWords =
             onChange={(event) =>
               setSearch(event.target.value)
             }
-            className="w-full rounded-2xl border border-violet-100 bg-white py-4 pl-14 pr-5 text-slate-800 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-100"
+            className="vocabulary-search w-full rounded-2xl border border-violet-100 bg-white py-4 pl-14 pr-5 text-slate-800 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-100"
           />
 
         </div>
@@ -478,7 +478,7 @@ const rewardedVocabularyWords =
             return (
               <div
                 key={item.word}
-                className="rounded-3xl bg-white p-6 shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-xl"
+                className="vocabulary-word-card rounded-3xl bg-white p-6 shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-xl"
               >
 
                 <div className="flex items-start justify-between">
@@ -519,7 +519,7 @@ const rewardedVocabularyWords =
 
                 </div>
 
-                <div className="mt-5 rounded-2xl bg-violet-50 p-4">
+                <div className="vocabulary-example-box mt-5 rounded-2xl bg-violet-50 p-4">
 
                   <p className="text-sm font-semibold text-violet-700">
                     Example
@@ -559,7 +559,7 @@ const rewardedVocabularyWords =
         {/* NO RESULTS */}
 
         {filteredWords.length === 0 && (
-          <div className="mt-10 rounded-3xl bg-white p-10 text-center shadow-lg">
+          <div className="vocabulary-empty-card mt-10 rounded-3xl bg-white p-10 text-center shadow-lg">
 
             <FaSearch className="mx-auto text-4xl text-violet-300" />
 

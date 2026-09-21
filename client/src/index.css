@@ -180,3 +180,75 @@ html.dark .practice-header .text-slate-700 {
 html.dark .practice-header .text-slate-900 {
   color: #ffffff !important;
 }
+html.dark .vocabulary-page {
+  background: #020617 !important;
+}
+html.dark .vocabulary-header {
+  background: #0f172a !important;
+  border-color: #1e293b !important;
+}
+html.dark .vocabulary-progress-card {
+  background: #1e293b !important;
+}
+html.dark .vocabulary-search {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+html.dark .vocabulary-search::placeholder {
+  color: #94a3b8 !important;
+}
+html.dark .vocabulary-word-card {
+  background: #1e293b !important;
+}
+/* Vocabulary dark mode text */
+html.dark .vocabulary-word-card .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .vocabulary-word-card .text-slate-800 {
+  color: #f8fafc !important;
+}
+
+html.dark .vocabulary-word-card .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+html.dark .vocabulary-word-card .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .vocabulary-word-card .text-slate-500 {
+  color: #94a3b8 !important;
+}
+html.dark .vocabulary-example-box {
+  background: #312e81 !important;
+}
+/* Vocabulary progress dark mode text */
+html.dark .vocabulary-progress-card .text-slate-500 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .vocabulary-progress-card .text-slate-400 {
+  color: #94a3b8 !important;
+}
+/* Vocabulary header dark mode text */
+html.dark .vocabulary-header .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .vocabulary-header .text-slate-500 {
+  color: #cbd5e1 !important;
+}
+html.dark .vocabulary-empty-card {
+  background: #1e293b !important;
+}
+
+html.dark .vocabulary-empty-card .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .vocabulary-empty-card .text-slate-500 {
+  color: #cbd5e1 !important;
+}

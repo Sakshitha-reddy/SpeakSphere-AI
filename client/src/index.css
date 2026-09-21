@@ -331,3 +331,58 @@ html.dark .voice-controls-card .text-slate-500 {
 html.dark .voice-rooms-subtitle {
   color: #cbd5e1 !important;
 }
+/* Random Call page - dark mode */
+html.dark .random-call-page {
+  background: #020617 !important;
+}
+/* Random Call main card - dark mode */
+html.dark .random-call-card {
+  background: #1e293b !important;
+}
+/* Random Call card text - dark mode */
+html.dark .random-call-card .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .random-call-card .text-slate-800 {
+  color: #f8fafc !important;
+}
+
+html.dark .random-call-card .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+html.dark .random-call-card .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .random-call-card .text-slate-500 {
+  color: #cbd5e1 !important;
+}
+/* Random Call status box - dark mode */
+html.dark .random-call-status {
+  background: #312e81 !important;
+}
+
+html.dark .random-call-status .text-slate-500 {
+  color: #e2e8f0 !important;
+}
+/* Random Call status text - dark mode */
+html.dark .random-call-status {
+  color: #ffffff !important;
+}
+
+html.dark .random-call-status * {
+  color: #ffffff !important;
+}
+html.dark .random-call-page .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+/* Random Call searching text - dark mode */
+html.dark .random-call-card .text-violet-600 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .random-call-card .text-violet-500 {
+  color: #cbd5e1 !important;
+}

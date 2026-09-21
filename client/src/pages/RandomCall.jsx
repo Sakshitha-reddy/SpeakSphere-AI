@@ -1434,7 +1434,7 @@ console.log(
   // --------------------------------
 
   return (
-    <div className="min-h-screen bg-[#f6f0ff] px-6 py-12">
+    <div className="random-call-page min-h-screen bg-[#f6f0ff] px-6 py-12">
 
       <div className="max-w-3xl mx-auto">
 
@@ -1462,7 +1462,7 @@ console.log(
 
         {/* MAIN CARD */}
 
-        <div className="bg-white rounded-3xl shadow-lg p-10 text-center">
+        <div className="random-call-card bg-white rounded-3xl shadow-lg p-10 text-center">
 
           <div className="text-6xl mb-6">
             🎙️
@@ -1479,8 +1479,7 @@ console.log(
 
           {/* STATUS */}
 
-          <div className="mt-8 bg-violet-50 rounded-2xl p-5">
-
+          <div className="random-call-status mt-8 bg-violet-50 rounded-2xl p-5">
             <p className="font-semibold text-violet-700">
               {status}
             </p>

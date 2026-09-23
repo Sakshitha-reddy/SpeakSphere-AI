@@ -41,11 +41,11 @@ function Profile() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f6f0ff] px-6 py-12">
+    <div className="profile-page min-h-screen bg-[#f6f0ff] px-6 py-12">
       <div className="mx-auto max-w-5xl">
     <button
   onClick={() => navigate("/dashboard")}
-  className="mb-8 rounded-xl bg-violet-600 px-5 py-3 font-semibold text-white transition hover:bg-violet-700"
+  className="profile-back-btn mb-8 rounded-xl bg-violet-600 px-5 py-3 font-semibold text-white transition hover:bg-violet-700"
 >
   ← Back to Dashboard
 </button>
@@ -55,23 +55,23 @@ function Profile() {
             S
           </div>
 
-          <h1 className="mt-5 text-4xl font-bold text-slate-900">
-            {userData.name || "Sakshitha"}
-          </h1>
+          <h1 className="profile-name mt-5 text-4xl font-bold text-slate-900">
+  {userData.name || "Sakshitha"}
+</h1>
 
-          <p className="mt-2 text-slate-500">
-            {userData.email}
-          </p>
+<p className="profile-email mt-2 text-slate-500">
+  {userData.email}
+</p>
 
-          <p className="mt-1 text-sm font-medium text-violet-600">
-            English Learner
-          </p>
+<p className="mt-1 text-sm font-medium text-violet-600">
+  English Learner
+</p>
         </div>
 
         {/* Stats */}
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
-          <div className="rounded-2xl bg-white p-6 text-center shadow-md">
+         <div className="profile-stat-card rounded-2xl bg-white p-6 text-center shadow-md">
             <p className="text-3xl">🔥</p>
             <p className="mt-3 text-2xl font-bold text-slate-900">
               {userData.streak}
@@ -81,7 +81,7 @@ function Profile() {
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white p-6 text-center shadow-md">
+         <div className="profile-stat-card rounded-2xl bg-white p-6 text-center shadow-md">
             <p className="text-3xl">⭐</p>
             <p className="mt-3 text-2xl font-bold text-slate-900">
               {userData.points}
@@ -91,7 +91,7 @@ function Profile() {
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white p-6 text-center shadow-md">
+          <div className="profile-stat-card rounded-2xl bg-white p-6 text-center shadow-md">
             <p className="text-3xl">📚</p>
             <p className="mt-3 text-2xl font-bold text-slate-900">
               {userData.vocabulary}
@@ -101,7 +101,7 @@ function Profile() {
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white p-6 text-center shadow-md">
+          <div className="profile-stat-card rounded-2xl bg-white p-6 text-center shadow-md">
             <p className="text-3xl">🎤</p>
             <p className="mt-3 text-2xl font-bold text-slate-900">
               {userData.practiceSessions}
@@ -114,14 +114,14 @@ function Profile() {
         </div>
 
         {/* Learning Progress */}
-        <div className="mt-8 rounded-3xl bg-white p-8 shadow-lg">
-          <h2 className="text-2xl font-bold text-slate-900">
-            Learning Progress
-          </h2>
+       <div className="profile-progress-card mt-8 rounded-3xl bg-white p-8 shadow-lg">
+          <h2 className="profile-progress-title text-2xl font-bold text-slate-900">
+  Learning Progress
+</h2>
 
           <div className="mt-6 space-y-5">
 
-            <div className="flex items-center justify-between rounded-2xl bg-violet-50 p-5">
+            <div className="profile-progress-item flex items-center justify-between rounded-2xl bg-violet-50 p-5">
               <div>
                 <p className="font-semibold text-slate-900">
                   🎯 Challenges Completed
@@ -136,7 +136,7 @@ function Profile() {
               </p>
             </div>
 
-            <div className="flex items-center justify-between rounded-2xl bg-violet-50 p-5">
+            <div className="profile-progress-item flex items-center justify-between rounded-2xl bg-violet-50 p-5">
               <div>
                 <p className="font-semibold text-slate-900">
                   📊 Fluency Score

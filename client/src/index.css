@@ -536,3 +536,47 @@ html.dark .achievements-back-btn {
 html.dark .achievements-back-btn:hover {
   background: #334155 !important;
 }
+/* Profile page - dark mode */
+html.dark .profile-page {
+  background: #020617 !important;
+}
+/* Profile statistics cards - dark mode */
+html.dark .profile-stat-card {
+  background: #1e293b !important;
+}
+/* Profile statistics text - dark mode */
+html.dark .profile-stat-card .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .profile-stat-card .text-slate-500 {
+  color: #cbd5e1 !important;
+}
+/* Profile learning progress - dark mode */
+html.dark .profile-progress-card {
+  background: #1e293b !important;
+}
+/* Profile progress items - dark mode */
+html.dark .profile-progress-item {
+  background: #0f172a !important;
+}
+
+html.dark .profile-progress-item .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .profile-progress-item .text-slate-500 {
+  color: #cbd5e1 !important;
+}
+/* Profile header - dark mode */
+html.dark .profile-name {
+  color: #ffffff !important;
+}
+
+html.dark .profile-email {
+  color: #cbd5e1 !important;
+}
+/* Profile Learning Progress heading - dark mode */
+html.dark .profile-progress-title {
+  color: #ffffff !important;
+}

@@ -481,3 +481,16 @@ html.dark .daily-challenge-tips .grid > div p {
 html.dark .daily-challenge-title {
   color: #ffffff !important;
 }
+/* Leaderboard - dark mode */
+html.dark .leaderboard-page {
+  background: #020617 !important;
+}
+/* Leaderboard back button - dark mode */
+html.dark .leaderboard-back-btn {
+  background: #1e293b !important;
+  color: #c4b5fd !important;
+}
+
+html.dark .leaderboard-back-btn:hover {
+  background: #334155 !important;
+}

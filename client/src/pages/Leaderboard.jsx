@@ -44,11 +44,11 @@ function Leaderboard() {
 
   return (
     
-    <div className="min-h-screen bg-slate-950 px-6 py-12 text-white">
+    <div className="leaderboard-page min-h-screen bg-slate-950 px-6 py-12 text-white">
       <div className="mx-auto max-w-4xl">
   <Link
     to="/dashboard"
-    className="mb-8 inline-flex items-center gap-2 rounded-xl bg-violet-100 px-4 py-3 text-violet-700 transition hover:bg-violet-200"
+    className="leaderboard-back-btn mb-8 inline-flex items-center gap-2 rounded-xl bg-violet-100 px-4 py-3 text-violet-700 transition hover:bg-violet-200"
   >
     <FaArrowLeft />
     Back to Dashboard

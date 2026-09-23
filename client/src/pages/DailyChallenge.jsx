@@ -671,13 +671,13 @@ const averageScore = Math.round(newTotal / newCount);
   // =====================================
 
   return (
-    <div className="min-h-screen bg-[#f6f0ff]">
+    <div className="daily-challenge-page min-h-screen bg-[#f6f0ff]">
 
       {/* ================================= */}
       {/* HEADER */}
       {/* ================================= */}
 
-      <header className="border-b border-violet-100 bg-white shadow-sm">
+      <header className="daily-challenge-header border-b border-violet-100 bg-white shadow-sm">
 
         <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
 
@@ -692,9 +692,9 @@ const averageScore = Math.round(newTotal / newCount);
 
             <div>
 
-              <h1 className="text-3xl font-bold text-slate-900">
-                Daily Challenge
-              </h1>
+             <h1 className="daily-challenge-title text-3xl font-bold text-slate-900">
+  Daily Challenge
+</h1>
 
               <p className="text-slate-500">
                 Complete today's English speaking challenge.
@@ -758,7 +758,7 @@ const averageScore = Math.round(newTotal / newCount);
         {/* CHALLENGE CARD */}
         {/* ================================= */}
 
-        <div className="mt-8 rounded-3xl bg-white p-8 shadow-lg">
+<div className="daily-challenge-card mt-8 rounded-3xl bg-white p-8 shadow-lg">
 
           {/* TOPIC HEADER */}
 
@@ -784,7 +784,7 @@ const averageScore = Math.round(newTotal / newCount);
 
           {/* TOPIC */}
 
-          <div className="mt-8 rounded-2xl bg-violet-50 p-6">
+         <div className="daily-challenge-topic mt-8 rounded-2xl bg-violet-50 p-6">
 
             <p className="text-sm font-semibold uppercase tracking-wide text-violet-600">
               Topic
@@ -806,7 +806,7 @@ const averageScore = Math.round(newTotal / newCount);
           {/* TIMER */}
           {/* ================================= */}
 
-          <div className="mt-8 flex flex-col items-center rounded-3xl border border-violet-100 bg-white p-8">
+          <div className="daily-challenge-timer mt-8 flex flex-col items-center rounded-3xl border border-violet-100 bg-white p-8">
 
             <div className="flex items-center gap-3 text-slate-500">
 
@@ -834,7 +834,7 @@ const averageScore = Math.round(newTotal / newCount);
           {/* SPEECH TRANSCRIPT */}
           {/* ================================= */}
 
-          <div className="mt-8 rounded-3xl bg-slate-50 p-6">
+         <div className="daily-challenge-speech mt-8 rounded-3xl bg-slate-50 p-6">
 
             <div className="flex items-center justify-between">
 
@@ -850,7 +850,7 @@ const averageScore = Math.round(newTotal / newCount);
 
             </div>
 
-            <div className="mt-4 min-h-[150px] rounded-2xl bg-white p-5 text-slate-700 shadow-sm">
+            <div className="daily-challenge-speech-box mt-4 min-h-[150px] rounded-2xl bg-white p-5 text-slate-700 shadow-sm">
 
               {transcript ? (
                 transcript
@@ -990,7 +990,7 @@ const averageScore = Math.round(newTotal / newCount);
         {/* SPEAKING TIPS */}
         {/* ================================= */}
 
-        <div className="mt-8 rounded-3xl bg-white p-8 shadow-lg">
+        <div className="daily-challenge-tips mt-8 rounded-3xl bg-white p-8 shadow-lg">
 
           <h2 className="text-2xl font-bold text-slate-900">
             💡 Speaking Tips
@@ -1000,7 +1000,7 @@ const averageScore = Math.round(newTotal / newCount);
 
             {/* TIP 1 */}
 
-            <div className="rounded-2xl bg-violet-50 p-5">
+            <div className="daily-challenge-tip rounded-2xl bg-violet-50 p-5">
 
               <h3 className="font-bold text-violet-700">
                 Speak Naturally

@@ -386,3 +386,98 @@ html.dark .random-call-card .text-violet-600 {
 html.dark .random-call-card .text-violet-500 {
   color: #cbd5e1 !important;
 }
+/* Daily Challenge page - dark mode */
+html.dark .daily-challenge-page {
+  background: #020617 !important;
+}
+/* Daily Challenge header - dark mode */
+html.dark .daily-challenge-header {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+/* Daily Challenge main card - dark mode */
+html.dark .daily-challenge-card {
+  background: #1e293b !important;
+}
+/* Daily Challenge speaking topic heading - dark mode */
+html.dark .daily-challenge-card h2 {
+  color: #ffffff !important;
+}
+
+html.dark .daily-challenge-card h2 + p {
+  color: #cbd5e1 !important;
+}
+/* Daily Challenge topic box - dark mode */
+html.dark .daily-challenge-topic {
+  background: #0f172a !important;
+}
+
+html.dark .daily-challenge-topic .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .daily-challenge-topic .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+/* Daily Challenge timer - dark mode */
+html.dark .daily-challenge-timer {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+html.dark .daily-challenge-timer .text-slate-500 {
+  color: #cbd5e1 !important;
+}
+/* Daily Challenge speech section - dark mode */
+html.dark .daily-challenge-speech {
+  background: #0f172a !important;
+}
+
+html.dark .daily-challenge-speech-box {
+  background: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .daily-challenge-speech-box .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+html.dark .daily-challenge-speech .text-slate-900 {
+  color: #ffffff !important;
+}
+/* Daily Challenge speaking tips - dark mode */
+html.dark .daily-challenge-tips {
+  background: #1e293b !important;
+}
+
+html.dark .daily-challenge-tips .text-slate-900 {
+  color: #ffffff !important;
+}
+
+html.dark .daily-challenge-tip {
+  background: #0f172a !important;
+}
+
+html.dark .daily-challenge-tip .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .daily-challenge-tip .text-violet-700 {
+  color: #c4b5fd !important;
+}
+/* Make all Speaking Tips boxes dark */
+html.dark .daily-challenge-tips .grid > div {
+  background: #0f172a !important;
+}
+
+html.dark .daily-challenge-tips .grid > div h3 {
+  color: #c4b5fd !important;
+}
+
+html.dark .daily-challenge-tips .grid > div p {
+  color: #cbd5e1 !important;
+}
+/* Daily Challenge header title - dark mode */
+html.dark .daily-challenge-title {
+  color: #ffffff !important;
+}

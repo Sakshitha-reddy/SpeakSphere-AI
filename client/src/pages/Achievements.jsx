@@ -39,24 +39,24 @@ function Achievements() {
   const challengeChampion = userData.lessonsCompleted >= 10;
 
   return (
-    <div className="min-h-screen bg-[#f6f0ff] px-6 py-12">
+    <div className="achievements-page min-h-screen bg-[#f6f0ff] px-6 py-12">
       <div className="mx-auto max-w-6xl">
   <Link
     to="/dashboard"
-    className="mb-8 inline-flex items-center gap-2 rounded-xl bg-violet-100 px-4 py-3 text-violet-700 transition hover:bg-violet-200"
+    className="achievements-back-btn mb-8 inline-flex items-center gap-2 rounded-xl bg-violet-100 px-4 py-3 text-violet-700 transition hover:bg-violet-200"
   >
     <FaArrowLeft />
     Back to Dashboard
   </Link>
 
   <div className="text-center">
-          <h1 className="text-4xl font-bold text-slate-900">
-            🏅 Achievements
-          </h1>
+          <h1 className="achievements-title text-4xl font-bold text-slate-900">
+  🏅 Achievements
+</h1>
 
-          <p className="mt-3 text-lg text-slate-600">
-            Complete challenges and unlock badges!
-          </p>
+          <p className="achievements-subtitle mt-3 text-lg text-slate-600">
+  Complete challenges and unlock badges!
+</p>
         </div>
 
         {/* Achievement Grid */}

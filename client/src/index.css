@@ -494,3 +494,45 @@ html.dark .leaderboard-back-btn {
 html.dark .leaderboard-back-btn:hover {
   background: #334155 !important;
 }
+/* Achievements page - dark mode */
+html.dark .achievements-page {
+  background: #020617 !important;
+}
+/* Achievements cards - dark mode */
+html.dark .achievements-page .rounded-3xl.border {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+/* Achievements card text - dark mode */
+html.dark .achievements-page .rounded-3xl.border h2 {
+  color: #ffffff !important;
+}
+
+html.dark .achievements-page .rounded-3xl.border p {
+  color: #cbd5e1 !important;
+}
+
+html.dark .achievements-page .rounded-3xl.border .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+html.dark .achievements-page .rounded-3xl.border .text-slate-500 {
+  color: #94a3b8 !important;
+}
+/* Achievements header - dark mode */
+html.dark .achievements-title {
+  color: #ffffff !important;
+}
+
+html.dark .achievements-subtitle {
+  color: #cbd5e1 !important;
+}
+/* Achievements back button - dark mode */
+html.dark .achievements-back-btn {
+  background: #1e293b !important;
+  color: #c4b5fd !important;
+}
+
+html.dark .achievements-back-btn:hover {
+  background: #334155 !important;
+}

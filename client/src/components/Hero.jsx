@@ -4,9 +4,14 @@ import {
   FaMicrophoneAlt,
   FaChartLine,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Hero() {
-  return (
+  const navigate = useNavigate();
+const [showDemo, setShowDemo] = useState(false);
+
+return (
     <section id="home" className="bg-[#f6f0ff] pt-8 pb-8">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-16 px-6 lg:flex-row">
 
@@ -33,15 +38,21 @@ export default function Hero() {
 
           <div className="mt-10 flex gap-5">
 
-            <button className="mt-10 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 px-8 py-4 text-lg font-semibold text-white shadow-lg transition hover:scale-105">
-              Start Speaking
-              <FaArrowRight />
-            </button>
+            <button
+  onClick={() => navigate("/practice")}
+  className="mt-10 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 px-8 py-4 text-lg font-semibold text-white shadow-lg transition hover:scale-105"
+>
+  Start Speaking
+  <FaArrowRight />
+</button>
 
-            <button className="mt-10 ml-4 inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-8 py-4 text-lg font-semibold text-slate-700 shadow-sm transition hover:shadow-lg">
-              <FaPlay />
-              Watch Demo
-            </button>
+            <button
+  onClick={() => setShowDemo(true)}
+  className="mt-10 ml-4 inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-8 py-4 text-lg font-semibold text-slate-700 shadow-sm transition hover:shadow-lg"
+>
+  <FaPlay />
+  Watch Demo
+</button>
 
           </div>
 
@@ -105,6 +116,54 @@ export default function Hero() {
         </div>
 
       </div>
+    
+
+      {/* Demo Modal */}
+      {showDemo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-6">
+          <div className="w-full max-w-2xl rounded-3xl bg-white p-8 shadow-2xl">
+
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-slate-900">
+                🎬 How SpeakSphere Works
+              </h2>
+
+              <button
+                onClick={() => setShowDemo(false)}
+                className="rounded-full bg-slate-100 px-4 py-2 text-xl text-slate-600 hover:bg-slate-200"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="mt-6 rounded-2xl bg-violet-50 p-8 text-center">
+              <div className="text-6xl">🎤</div>
+
+              <h3 className="mt-5 text-xl font-bold text-slate-900">
+                Practice English with AI
+              </h3>
+
+              <p className="mt-3 leading-7 text-slate-600">
+                Speak with your AI coach, practice pronunciation,
+                improve fluency, learn vocabulary, and connect with
+                other English learners.
+              </p>
+            </div>
+
+            <button
+              onClick={() => {
+                setShowDemo(false);
+                navigate("/practice");
+              }}
+              className="mt-6 w-full rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 px-6 py-4 font-semibold text-white transition hover:scale-[1.02]"
+            >
+              Start Practicing 🚀
+            </button>
+
+          </div>
+        </div>
+      )}
+
     </section>
   );
 }

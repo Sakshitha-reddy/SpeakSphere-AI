@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 export default function Pricing() {
+  const navigate = useNavigate();
   const plans = [
     {
       name: "Free",
@@ -108,14 +111,27 @@ export default function Pricing() {
               </ul>
 
               <button
-                className={`mt-10 w-full rounded-xl py-3 font-semibold transition ${
-                  plan.featured
-                    ? "bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white hover:scale-105"
-                    : "border border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white"
-                }`}
-              >
-                {plan.button}
-              </button>
+ onClick={() => {
+  if (plan.name === "Free") {
+    navigate("/signup");
+  }
+
+  if (plan.name === "Pro") {
+    navigate("/signup");
+  }
+
+  if (plan.name === "Premium") {
+    navigate("/signup");
+  }
+}}
+  className={`mt-10 w-full rounded-xl py-3 font-semibold transition ${
+    plan.featured
+      ? "bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white hover:scale-105"
+      : "border border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white"
+  }`}
+>
+  {plan.button}
+</button>
             </div>
           ))}
         </div>

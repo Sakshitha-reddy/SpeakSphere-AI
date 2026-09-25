@@ -1,6 +1,14 @@
+import { useState } from "react";
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 
 export default function Contact() {
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSent(true);
+  };
+
   return (
     <section
       id="contact"
@@ -84,7 +92,7 @@ export default function Contact() {
 
         <div className="rounded-3xl bg-white p-10 shadow-xl">
 
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
 
             <input
               type="text"
@@ -104,13 +112,19 @@ export default function Contact() {
               className="w-full rounded-xl border border-slate-200 px-5 py-4 outline-none focus:border-violet-500"
             ></textarea>
 
-            <button
-              className="w-full rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 py-4 font-semibold text-white transition hover:scale-105"
-            >
-              Send Message
-            </button>
+           <button
+  type="submit"
+  className="w-full rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 py-4 font-semibold text-white transition hover:scale-105"
+>
+  Send Message
+</button>
 
           </form>
+          {sent && (
+  <div className="mt-5 rounded-xl bg-green-100 px-5 py-4 text-center font-semibold text-green-700">
+    ✅ Your message has been sent successfully!
+  </div>
+)}
 
         </div>
 

@@ -1334,8 +1334,10 @@ console.log(
 
     audioTracks.forEach(
       (track) => {
+        console.log("Audio track before mute:", track.enabled);
         track.enabled =
           !track.enabled;
+          console.log("Audio track after mute:", track.enabled);
       }
     );
 
